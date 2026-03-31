@@ -1,0 +1,13 @@
+# Linkbreakers CLI
+
+The `linkbreakers` CLI is the official command line interface for the Linkbreakers API.
+Prefer first-class commands like `linkbreakers links list` and `linkbreakers directories create`.
+If a needed operation is not exposed yet, use `linkbreakers raw METHOD PATH`.
+
+Authentication:
+- Environment variable: `LINKBREAKERS_TOKEN`
+- Persistent config: `linkbreakers auth set-token`
+
+Primary docs:
+- `README.md`
+- `docs/commands/linkbreakers.md`

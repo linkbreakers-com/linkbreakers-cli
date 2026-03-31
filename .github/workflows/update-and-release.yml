@@ -1,0 +1,108 @@
+name: Update and Release CLI
+
+on:
+  repository_dispatch:
+    types: [update-sdk]
+  workflow_dispatch:
+
+jobs:
+  update-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install OpenAPI Generator
+        run: npm install -g @openapitools/openapi-generator-cli
+
+      - name: Fetch current version from swagger
+        id: fetch-version
+        run: |
+          SWAGGER_URL="https://api.linkbreakers.com/internal/openapi/api/v1/api.swagger.json"
+          NEW_VERSION=$(curl -s "$SWAGGER_URL" | jq -r '.info.version')
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Swagger version: $NEW_VERSION"
+
+      - name: Read current OPENAPI_VERSION
+        id: current-version
+        run: |
+          if [ -f OPENAPI_VERSION ]; then
+            CURRENT_VERSION=$(cat OPENAPI_VERSION)
+          else
+            CURRENT_VERSION="0.0.0"
+          fi
+          echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Compare versions
+        id: compare
+        run: |
+          if [ "${{ steps.fetch-version.outputs.new_version }}" = "${{ steps.current-version.outputs.current_version }}" ]; then
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+            echo "Versions match. No update needed."
+          else
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+            echo "Version changed: ${{ steps.current-version.outputs.current_version }} -> ${{ steps.fetch-version.outputs.new_version }}"
+          fi
+
+      - name: Generate client and docs
+        if: steps.compare.outputs.needs_update == 'true'
+        run: |
+          chmod +x ./scripts/generate-client.sh
+          ./scripts/generate-client.sh
+          go run ./cmd/linkbreakers gendocs
+
+      - name: Run tests
+        if: steps.compare.outputs.needs_update == 'true'
+        run: go test ./...
+
+      - name: Configure Git
+        if: steps.compare.outputs.needs_update == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit changes
+        if: steps.compare.outputs.needs_update == 'true'
+        run: |
+          NEW_VERSION="${{ steps.fetch-version.outputs.new_version }}"
+          git add .
+          git commit -m "chore: update CLI to API version $NEW_VERSION"
+
+      - name: Create and push tag
+        if: steps.compare.outputs.needs_update == 'true'
+        run: |
+          NEW_VERSION="${{ steps.fetch-version.outputs.new_version }}"
+          git tag "v$NEW_VERSION"
+          git push origin main
+          git push origin "v$NEW_VERSION"
+
+      - name: Checkout tag for release
+        if: steps.compare.outputs.needs_update == 'true'
+        run: git checkout "v${{ steps.fetch-version.outputs.new_version }}"
+
+      - name: Run GoReleaser
+        if: steps.compare.outputs.needs_update == 'true'
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

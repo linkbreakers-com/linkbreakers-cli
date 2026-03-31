@@ -1,0 +1,49 @@
+version: 2
+
+project_name: linkbreakers-cli
+
+before:
+  hooks:
+    - go test ./...
+
+builds:
+  - id: linkbreakers
+    binary: linkbreakers
+    main: ./cmd/linkbreakers
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/linkbreakers-com/linkbreakers-cli/internal/cli.Version={{ .Version }}
+      - -X github.com/linkbreakers-com/linkbreakers-cli/internal/cli.Commit={{ .Commit }}
+      - -X github.com/linkbreakers-com/linkbreakers-cli/internal/cli.Date={{ .Date }}
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
+
+checksum:
+  name_template: checksums.txt
+
+release:
+  github:
+    owner: linkbreakers-com
+    name: linkbreakers-cli
+
+changelog:
+  use: git

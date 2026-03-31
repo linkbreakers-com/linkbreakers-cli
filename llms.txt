@@ -1,0 +1,21 @@
+# Linkbreakers CLI
+
+The `linkbreakers` binary is the official CLI for the Linkbreakers API.
+
+Preferred usage:
+- `linkbreakers links list`
+- `linkbreakers links get <id>`
+- `linkbreakers links create --destination https://example.com`
+- `linkbreakers directories list`
+- `linkbreakers custom-domains list`
+
+Authentication:
+- `LINKBREAKERS_TOKEN`
+- `linkbreakers auth set-token --token <token>`
+
+Fallback:
+- `linkbreakers raw METHOD PATH`
+
+Primary human-readable docs:
+- `README.md`
+- `docs/commands/linkbreakers.md`
