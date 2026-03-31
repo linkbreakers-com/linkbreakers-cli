@@ -12,6 +12,7 @@ package linkbreakers
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the ListEventsJsonResponse type satisfies the MappedNullable interface at compile time
@@ -174,7 +175,7 @@ func (o *ListEventsJsonResponse) SetTotalCount(v int64) {
 }
 
 func (o ListEventsJsonResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,4 +235,27 @@ func (v *NullableListEventsJsonResponse) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+func (o *ListEventsJsonResponse) UnmarshalJSON(data []byte) error {
+	type alias struct {
+		Events        []Event         `json:"events,omitempty"`
+		HasMore       *bool           `json:"hasMore,omitempty"`
+		NextPageToken *string         `json:"nextPageToken,omitempty"`
+		TotalCount    json.RawMessage `json:"totalCount,omitempty"`
+	}
 
+	var decoded alias
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	totalCount, err := decodeFlexibleInt64(decoded.TotalCount)
+	if err != nil {
+		return fmt.Errorf("decode totalCount: %w", err)
+	}
+
+	o.Events = decoded.Events
+	o.HasMore = decoded.HasMore
+	o.NextPageToken = decoded.NextPageToken
+	o.TotalCount = totalCount
+	return nil
+}

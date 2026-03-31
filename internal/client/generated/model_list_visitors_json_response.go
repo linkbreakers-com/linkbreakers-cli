@@ -12,6 +12,7 @@ package linkbreakers
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the ListVisitorsJsonResponse type satisfies the MappedNullable interface at compile time
@@ -23,8 +24,8 @@ type ListVisitorsJsonResponse struct {
 	// Cursor token returned when another page is available
 	NextPageToken *string `json:"nextPageToken,omitempty"`
 	// Total number of visitors matching the current filters
-	TotalCount *int64 `json:"totalCount,omitempty"`
-	Visitors []Visitor `json:"visitors,omitempty"`
+	TotalCount *int64    `json:"totalCount,omitempty"`
+	Visitors   []Visitor `json:"visitors,omitempty"`
 }
 
 // NewListVisitorsJsonResponse instantiates a new ListVisitorsJsonResponse object
@@ -173,7 +174,7 @@ func (o *ListVisitorsJsonResponse) SetVisitors(v []Visitor) {
 }
 
 func (o ListVisitorsJsonResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -233,4 +234,27 @@ func (v *NullableListVisitorsJsonResponse) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+func (o *ListVisitorsJsonResponse) UnmarshalJSON(data []byte) error {
+	type alias struct {
+		HasMore       *bool           `json:"hasMore,omitempty"`
+		NextPageToken *string         `json:"nextPageToken,omitempty"`
+		TotalCount    json.RawMessage `json:"totalCount,omitempty"`
+		Visitors      []Visitor       `json:"visitors,omitempty"`
+	}
 
+	var decoded alias
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	totalCount, err := decodeFlexibleInt64(decoded.TotalCount)
+	if err != nil {
+		return fmt.Errorf("decode totalCount: %w", err)
+	}
+
+	o.HasMore = decoded.HasMore
+	o.NextPageToken = decoded.NextPageToken
+	o.TotalCount = totalCount
+	o.Visitors = decoded.Visitors
+	return nil
+}
