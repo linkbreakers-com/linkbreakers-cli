@@ -2,6 +2,9 @@
 
 The `linkbreakers` binary is the official CLI for the Linkbreakers API.
 
+Install:
+- `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`
+
 Preferred usage:
 - `linkbreakers links list`
 - `linkbreakers links get <id>`
@@ -15,6 +18,9 @@ Authentication:
 
 Fallback:
 - `linkbreakers raw METHOD PATH`
+
+Update:
+- `linkbreakers self-update`
 
 Primary human-readable docs:
 - `README.md`

@@ -14,49 +14,31 @@ linkbreakers raw GET /v1/links?pageSize=5
 
 ## Installation
 
-Download a prebuilt binary for macOS, Linux, or Windows from GitHub Releases:
+The easiest install path for macOS and Linux is:
+
+```bash
+curl -fsSL https://cli.linkbreakers.com/install.sh | bash
+```
+
+That installer:
+
+- detects OS and architecture automatically
+- downloads the latest GitHub Release
+- installs `linkbreakers` without requiring you to pick a version manually
+
+Direct downloads remain available from GitHub Releases:
 
 - Repository: `linkbreakers-com/linkbreakers-cli`
 - Releases: `https://github.com/linkbreakers-com/linkbreakers-cli/releases`
 
-No extra package registry is required. Once the repo is public, people can download binaries directly from Releases.
+No extra package registry is required. GitHub Releases remains the canonical binary distribution.
 
 ### Quick Install
 
-#### macOS (Apple Silicon)
+#### macOS and Linux
 
 ```bash
-curl -L https://github.com/linkbreakers-com/linkbreakers-cli/releases/latest/download/linkbreakers-cli_<version>_darwin_arm64.tar.gz \
-  | tar -xz
-chmod +x linkbreakers
-sudo mv linkbreakers /usr/local/bin/linkbreakers
-```
-
-#### macOS (Intel)
-
-```bash
-curl -L https://github.com/linkbreakers-com/linkbreakers-cli/releases/latest/download/linkbreakers-cli_<version>_darwin_amd64.tar.gz \
-  | tar -xz
-chmod +x linkbreakers
-sudo mv linkbreakers /usr/local/bin/linkbreakers
-```
-
-#### Linux (x86_64)
-
-```bash
-curl -L https://github.com/linkbreakers-com/linkbreakers-cli/releases/latest/download/linkbreakers-cli_<version>_linux_amd64.tar.gz \
-  | tar -xz
-chmod +x linkbreakers
-sudo mv linkbreakers /usr/local/bin/linkbreakers
-```
-
-#### Linux (ARM64)
-
-```bash
-curl -L https://github.com/linkbreakers-com/linkbreakers-cli/releases/latest/download/linkbreakers-cli_<version>_linux_arm64.tar.gz \
-  | tar -xz
-chmod +x linkbreakers
-sudo mv linkbreakers /usr/local/bin/linkbreakers
+curl -fsSL https://cli.linkbreakers.com/install.sh | bash
 ```
 
 #### Windows (PowerShell)
@@ -69,6 +51,22 @@ Move-Item ".\\linkbreakers\\linkbreakers.exe" "$HOME\\bin\\linkbreakers.exe"
 ```
 
 Replace `<version>` with a real release like `1.42.8`, or download the right archive from the Releases page directly.
+
+## Updating
+
+The CLI checks periodically for new releases and will let users know when an update is available.
+
+To update on supported platforms:
+
+```bash
+linkbreakers self-update
+```
+
+You can also rerun the installer:
+
+```bash
+curl -fsSL https://cli.linkbreakers.com/install.sh | bash
+```
 
 ## Authentication
 
@@ -91,6 +89,7 @@ First-class commands currently included:
 - `linkbreakers custom-domains ...`
 - `linkbreakers raw METHOD PATH`
 - `linkbreakers completion ...`
+- `linkbreakers self-update`
 - `linkbreakers version`
 
 The `raw` command is the fallback for any endpoint that does not yet have a dedicated subcommand.

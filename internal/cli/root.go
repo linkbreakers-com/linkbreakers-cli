@@ -7,6 +7,7 @@ import (
 
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/api"
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/config"
+	"github.com/linkbreakers-com/linkbreakers-cli/internal/update"
 	"github.com/spf13/cobra"
 )
 
@@ -21,6 +22,10 @@ func Execute() int {
 	if err := root.Execute(); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
 		return 1
+	}
+
+	if shouldCheckForUpdates(os.Args[1:]) {
+		update.MaybeNotify(Version, os.Stderr)
 	}
 	return 0
 }
@@ -53,6 +58,7 @@ func newRootCommand() *cobra.Command {
 		a.newDocsCommand(cmd),
 		a.newLinksCommand(),
 		a.newRawCommand(),
+		a.newSelfUpdateCommand(),
 		a.newVersionCommand(),
 	)
 
@@ -76,4 +82,19 @@ func (a *app) requireClient() (*api.Client, config.RuntimeConfig, error) {
 
 func docsDir() string {
 	return filepath.Join("docs", "commands")
+}
+
+func shouldCheckForUpdates(args []string) bool {
+	if len(args) == 0 {
+		return false
+	}
+
+	for _, arg := range args {
+		switch arg {
+		case "help", "--help", "-h", "completion", "gendocs", "self-update", "version":
+			return false
+		}
+	}
+
+	return true
 }
