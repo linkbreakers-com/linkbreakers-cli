@@ -4,6 +4,16 @@ on:
   repository_dispatch:
     types: [update-sdk]
   workflow_dispatch:
+    inputs:
+      force_release:
+        description: "Create a release from the current HEAD even if OPENAPI_VERSION did not change."
+        required: false
+        type: boolean
+        default: false
+      release_version:
+        description: "Required when force_release is true. Example: 1.45.2"
+        required: false
+        type: string
 
 jobs:
   update-and-release:
@@ -53,16 +63,36 @@ jobs:
       - name: Compare versions
         id: compare
         run: |
-          if [ "${{ steps.fetch-version.outputs.new_version }}" = "${{ steps.current-version.outputs.current_version }}" ]; then
+          FORCE_RELEASE="${{ github.event_name == 'workflow_dispatch' && inputs.force_release || 'false' }}"
+          RELEASE_VERSION="${{ inputs.release_version }}"
+          SWAGGER_VERSION="${{ steps.fetch-version.outputs.new_version }}"
+          CURRENT_VERSION="${{ steps.current-version.outputs.current_version }}"
+
+          if [ "$FORCE_RELEASE" = "true" ]; then
+            if [ -z "$RELEASE_VERSION" ]; then
+              echo "release_version is required when force_release is true" >&2
+              exit 1
+            fi
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+            echo "target_version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+            echo "commit_message=chore: release CLI $RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+            echo "force_release=true" >> "$GITHUB_OUTPUT"
+            echo "Manual release requested: $RELEASE_VERSION"
+          elif [ "$SWAGGER_VERSION" = "$CURRENT_VERSION" ]; then
             echo "needs_update=false" >> "$GITHUB_OUTPUT"
+            echo "target_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+            echo "force_release=false" >> "$GITHUB_OUTPUT"
             echo "Versions match. No update needed."
           else
             echo "needs_update=true" >> "$GITHUB_OUTPUT"
-            echo "Version changed: ${{ steps.current-version.outputs.current_version }} -> ${{ steps.fetch-version.outputs.new_version }}"
+            echo "target_version=$SWAGGER_VERSION" >> "$GITHUB_OUTPUT"
+            echo "commit_message=chore: update CLI to API version $SWAGGER_VERSION" >> "$GITHUB_OUTPUT"
+            echo "force_release=false" >> "$GITHUB_OUTPUT"
+            echo "Version changed: $CURRENT_VERSION -> $SWAGGER_VERSION"
           fi
 
       - name: Generate client and docs
-        if: steps.compare.outputs.needs_update == 'true'
+        if: steps.compare.outputs.needs_update == 'true' && steps.compare.outputs.force_release != 'true'
         run: |
           chmod +x ./scripts/generate-client.sh
           ./scripts/generate-client.sh
@@ -78,24 +108,35 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit changes
+      - name: Detect generated changes
         if: steps.compare.outputs.needs_update == 'true'
+        id: changes
         run: |
-          NEW_VERSION="${{ steps.fetch-version.outputs.new_version }}"
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No working tree changes to commit."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "Working tree changes detected."
+          fi
+
+      - name: Commit changes
+        if: steps.compare.outputs.needs_update == 'true' && steps.changes.outputs.has_changes == 'true'
+        run: |
           git add .
-          git commit -m "chore: update CLI to API version $NEW_VERSION"
+          git commit -m "${{ steps.compare.outputs.commit_message }}"
 
       - name: Create and push tag
         if: steps.compare.outputs.needs_update == 'true'
         run: |
-          NEW_VERSION="${{ steps.fetch-version.outputs.new_version }}"
+          NEW_VERSION="${{ steps.compare.outputs.target_version }}"
           git tag "v$NEW_VERSION"
           git push origin main
           git push origin "v$NEW_VERSION"
 
       - name: Checkout tag for release
         if: steps.compare.outputs.needs_update == 'true'
-        run: git checkout "v${{ steps.fetch-version.outputs.new_version }}"
+        run: git checkout "v${{ steps.compare.outputs.target_version }}"
 
       - name: Run GoReleaser
         if: steps.compare.outputs.needs_update == 'true'
