@@ -36,6 +36,9 @@ openapi-generator-cli generate \
 rm -f "${ROOT_DIR}/internal/client/generated/"*.go
 cp "${TMP_DIR}/generated/"*.go "${ROOT_DIR}/internal/client/generated/"
 
+echo "Applying gRPC-gateway int64 string overrides"
+cp "${ROOT_DIR}/scripts/overrides/grpc_int64_unmarshal.go.tmpl" "${ROOT_DIR}/internal/client/generated/grpc_int64_unmarshal.go"
+
 NEW_VERSION="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["info"]["version"])' "${TMP_DIR}/openapi-3.2.json")"
 printf '%s\n' "${NEW_VERSION}" > "${ROOT_DIR}/OPENAPI_VERSION"
 
