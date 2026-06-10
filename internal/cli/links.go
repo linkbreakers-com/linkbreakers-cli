@@ -33,7 +33,7 @@ func (a *app) newLinksListCommand() *cobra.Command {
 	var sortBy string
 	var sortDirection string
 	var directoryID string
-	var includeAllDirectories bool
+	var view string
 
 	cmd := &cobra.Command{
 		Use:   "list",
@@ -41,7 +41,8 @@ func (a *app) newLinksListCommand() *cobra.Command {
 		Example: "" +
 			"  linkbreakers links list --page-size 20\n" +
 			"  linkbreakers links list --search summer --tags campaign-a,campaign-b\n" +
-			"  linkbreakers links list --output table --include qrcodeSignedUrl\n",
+			"  linkbreakers links list --output table --include qrcodeSignedUrl\n" +
+			"  linkbreakers links list --view LINK_VIEW_DIRECTORY --directory-id <id>\n",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			client, cfg, err := a.requireClient()
 			if err != nil {
@@ -70,8 +71,8 @@ func (a *app) newLinksListCommand() *cobra.Command {
 			if directoryID != "" {
 				req = req.DirectoryId(directoryID)
 			}
-			if includeAllDirectories {
-				req = req.IncludeAllDirectories(true)
+			if view != "" {
+				req = req.View(view)
 			}
 
 			resp, _, err := req.Execute()
@@ -105,7 +106,7 @@ func (a *app) newLinksListCommand() *cobra.Command {
 	cmd.Flags().StringVar(&sortBy, "sort-by", "", "Sort field.")
 	cmd.Flags().StringVar(&sortDirection, "sort-direction", "", "Sort direction.")
 	cmd.Flags().StringVar(&directoryID, "directory-id", "", "Filter by directory ID.")
-	cmd.Flags().BoolVar(&includeAllDirectories, "include-all-directories", false, "Include links from all directories.")
+	cmd.Flags().StringVar(&view, "view", "", "View mode: LINK_VIEW_DIRECTORY to scope to a directory, omit for all links.")
 	return cmd
 }
 
