@@ -16,21 +16,16 @@ import (
 	"fmt"
 )
 
-// checks if the CreateLinkRequest type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &CreateLinkRequest{}
+// checks if the CreateThankYouLinkRequest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateThankYouLinkRequest{}
 
-// CreateLinkRequest Request to create a new link.
-type CreateLinkRequest struct {
-	// Enable conversion tracking by preserving lbid in redirect URL.
-	ConversionTracking *bool `json:"conversionTracking,omitempty"`
+// CreateThankYouLinkRequest Request to create a new thank you page link.
+type CreateThankYouLinkRequest struct {
 	CustomDomainId *string `json:"customDomainId,omitempty"`
-	// The destination URL to shorten. This field is required.
-	Destination string `json:"destination"`
+	// Optional description displayed on the thank you page.
+	Description *string `json:"description,omitempty"`
 	// Directory to organize this link into. If empty, link is created at root level.
 	DirectoryId *string `json:"directoryId,omitempty"`
-	FallbackDestination *string `json:"fallbackDestination,omitempty"`
-	// Optional pre-generated UUID. If omitted, the system generates one.
-	Id *string `json:"id,omitempty"`
 	// The lead goal definition for the link. This is a text field that can be used to describe the lead goal or purpose of the link.
 	LeadGoalDefinition *string `json:"leadGoalDefinition,omitempty"`
 	// The lead target definition for the link. This is a text field that can be used to describe the target lead criteria for the link.
@@ -46,64 +41,34 @@ type CreateLinkRequest struct {
 	Shortlink *string `json:"shortlink,omitempty"`
 	// List of tags to associate with the link. If a tag doesn't exist, it will be created.
 	Tags []string `json:"tags,omitempty"`
+	// Title displayed on the thank you page. This field is required.
+	Title string `json:"title"`
 	// Wait for QR code generation to complete. Note: This makes the request slower compared to asynchronous generation.
 	WaitForQrcode *bool `json:"waitForQrcode,omitempty"`
 }
 
-type _CreateLinkRequest CreateLinkRequest
+type _CreateThankYouLinkRequest CreateThankYouLinkRequest
 
-// NewCreateLinkRequest instantiates a new CreateLinkRequest object
+// NewCreateThankYouLinkRequest instantiates a new CreateThankYouLinkRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateLinkRequest(destination string) *CreateLinkRequest {
-	this := CreateLinkRequest{}
-	this.Destination = destination
+func NewCreateThankYouLinkRequest(title string) *CreateThankYouLinkRequest {
+	this := CreateThankYouLinkRequest{}
+	this.Title = title
 	return &this
 }
 
-// NewCreateLinkRequestWithDefaults instantiates a new CreateLinkRequest object
+// NewCreateThankYouLinkRequestWithDefaults instantiates a new CreateThankYouLinkRequest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewCreateLinkRequestWithDefaults() *CreateLinkRequest {
-	this := CreateLinkRequest{}
+func NewCreateThankYouLinkRequestWithDefaults() *CreateThankYouLinkRequest {
+	this := CreateThankYouLinkRequest{}
 	return &this
-}
-
-// GetConversionTracking returns the ConversionTracking field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetConversionTracking() bool {
-	if o == nil || IsNil(o.ConversionTracking) {
-		var ret bool
-		return ret
-	}
-	return *o.ConversionTracking
-}
-
-// GetConversionTrackingOk returns a tuple with the ConversionTracking field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetConversionTrackingOk() (*bool, bool) {
-	if o == nil || IsNil(o.ConversionTracking) {
-		return nil, false
-	}
-	return o.ConversionTracking, true
-}
-
-// HasConversionTracking returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasConversionTracking() bool {
-	if o != nil && !IsNil(o.ConversionTracking) {
-		return true
-	}
-
-	return false
-}
-
-// SetConversionTracking gets a reference to the given bool and assigns it to the ConversionTracking field.
-func (o *CreateLinkRequest) SetConversionTracking(v bool) {
-	o.ConversionTracking = &v
 }
 
 // GetCustomDomainId returns the CustomDomainId field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetCustomDomainId() string {
+func (o *CreateThankYouLinkRequest) GetCustomDomainId() string {
 	if o == nil || IsNil(o.CustomDomainId) {
 		var ret string
 		return ret
@@ -113,7 +78,7 @@ func (o *CreateLinkRequest) GetCustomDomainId() string {
 
 // GetCustomDomainIdOk returns a tuple with the CustomDomainId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetCustomDomainIdOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetCustomDomainIdOk() (*string, bool) {
 	if o == nil || IsNil(o.CustomDomainId) {
 		return nil, false
 	}
@@ -121,7 +86,7 @@ func (o *CreateLinkRequest) GetCustomDomainIdOk() (*string, bool) {
 }
 
 // HasCustomDomainId returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasCustomDomainId() bool {
+func (o *CreateThankYouLinkRequest) HasCustomDomainId() bool {
 	if o != nil && !IsNil(o.CustomDomainId) {
 		return true
 	}
@@ -130,36 +95,44 @@ func (o *CreateLinkRequest) HasCustomDomainId() bool {
 }
 
 // SetCustomDomainId gets a reference to the given string and assigns it to the CustomDomainId field.
-func (o *CreateLinkRequest) SetCustomDomainId(v string) {
+func (o *CreateThankYouLinkRequest) SetCustomDomainId(v string) {
 	o.CustomDomainId = &v
 }
 
-// GetDestination returns the Destination field value
-func (o *CreateLinkRequest) GetDestination() string {
-	if o == nil {
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *CreateThankYouLinkRequest) GetDescription() string {
+	if o == nil || IsNil(o.Description) {
 		var ret string
 		return ret
 	}
-
-	return o.Destination
+	return *o.Description
 }
 
-// GetDestinationOk returns a tuple with the Destination field value
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetDestinationOk() (*string, bool) {
-	if o == nil {
+func (o *CreateThankYouLinkRequest) GetDescriptionOk() (*string, bool) {
+	if o == nil || IsNil(o.Description) {
 		return nil, false
 	}
-	return &o.Destination, true
+	return o.Description, true
 }
 
-// SetDestination sets field value
-func (o *CreateLinkRequest) SetDestination(v string) {
-	o.Destination = v
+// HasDescription returns a boolean if a field has been set.
+func (o *CreateThankYouLinkRequest) HasDescription() bool {
+	if o != nil && !IsNil(o.Description) {
+		return true
+	}
+
+	return false
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *CreateThankYouLinkRequest) SetDescription(v string) {
+	o.Description = &v
 }
 
 // GetDirectoryId returns the DirectoryId field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetDirectoryId() string {
+func (o *CreateThankYouLinkRequest) GetDirectoryId() string {
 	if o == nil || IsNil(o.DirectoryId) {
 		var ret string
 		return ret
@@ -169,7 +142,7 @@ func (o *CreateLinkRequest) GetDirectoryId() string {
 
 // GetDirectoryIdOk returns a tuple with the DirectoryId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetDirectoryIdOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetDirectoryIdOk() (*string, bool) {
 	if o == nil || IsNil(o.DirectoryId) {
 		return nil, false
 	}
@@ -177,7 +150,7 @@ func (o *CreateLinkRequest) GetDirectoryIdOk() (*string, bool) {
 }
 
 // HasDirectoryId returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasDirectoryId() bool {
+func (o *CreateThankYouLinkRequest) HasDirectoryId() bool {
 	if o != nil && !IsNil(o.DirectoryId) {
 		return true
 	}
@@ -186,76 +159,12 @@ func (o *CreateLinkRequest) HasDirectoryId() bool {
 }
 
 // SetDirectoryId gets a reference to the given string and assigns it to the DirectoryId field.
-func (o *CreateLinkRequest) SetDirectoryId(v string) {
+func (o *CreateThankYouLinkRequest) SetDirectoryId(v string) {
 	o.DirectoryId = &v
 }
 
-// GetFallbackDestination returns the FallbackDestination field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetFallbackDestination() string {
-	if o == nil || IsNil(o.FallbackDestination) {
-		var ret string
-		return ret
-	}
-	return *o.FallbackDestination
-}
-
-// GetFallbackDestinationOk returns a tuple with the FallbackDestination field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetFallbackDestinationOk() (*string, bool) {
-	if o == nil || IsNil(o.FallbackDestination) {
-		return nil, false
-	}
-	return o.FallbackDestination, true
-}
-
-// HasFallbackDestination returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasFallbackDestination() bool {
-	if o != nil && !IsNil(o.FallbackDestination) {
-		return true
-	}
-
-	return false
-}
-
-// SetFallbackDestination gets a reference to the given string and assigns it to the FallbackDestination field.
-func (o *CreateLinkRequest) SetFallbackDestination(v string) {
-	o.FallbackDestination = &v
-}
-
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetId() string {
-	if o == nil || IsNil(o.Id) {
-		var ret string
-		return ret
-	}
-	return *o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetIdOk() (*string, bool) {
-	if o == nil || IsNil(o.Id) {
-		return nil, false
-	}
-	return o.Id, true
-}
-
-// HasId returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasId() bool {
-	if o != nil && !IsNil(o.Id) {
-		return true
-	}
-
-	return false
-}
-
-// SetId gets a reference to the given string and assigns it to the Id field.
-func (o *CreateLinkRequest) SetId(v string) {
-	o.Id = &v
-}
-
 // GetLeadGoalDefinition returns the LeadGoalDefinition field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetLeadGoalDefinition() string {
+func (o *CreateThankYouLinkRequest) GetLeadGoalDefinition() string {
 	if o == nil || IsNil(o.LeadGoalDefinition) {
 		var ret string
 		return ret
@@ -265,7 +174,7 @@ func (o *CreateLinkRequest) GetLeadGoalDefinition() string {
 
 // GetLeadGoalDefinitionOk returns a tuple with the LeadGoalDefinition field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetLeadGoalDefinitionOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetLeadGoalDefinitionOk() (*string, bool) {
 	if o == nil || IsNil(o.LeadGoalDefinition) {
 		return nil, false
 	}
@@ -273,7 +182,7 @@ func (o *CreateLinkRequest) GetLeadGoalDefinitionOk() (*string, bool) {
 }
 
 // HasLeadGoalDefinition returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasLeadGoalDefinition() bool {
+func (o *CreateThankYouLinkRequest) HasLeadGoalDefinition() bool {
 	if o != nil && !IsNil(o.LeadGoalDefinition) {
 		return true
 	}
@@ -282,12 +191,12 @@ func (o *CreateLinkRequest) HasLeadGoalDefinition() bool {
 }
 
 // SetLeadGoalDefinition gets a reference to the given string and assigns it to the LeadGoalDefinition field.
-func (o *CreateLinkRequest) SetLeadGoalDefinition(v string) {
+func (o *CreateThankYouLinkRequest) SetLeadGoalDefinition(v string) {
 	o.LeadGoalDefinition = &v
 }
 
 // GetLeadTargetDefinition returns the LeadTargetDefinition field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetLeadTargetDefinition() string {
+func (o *CreateThankYouLinkRequest) GetLeadTargetDefinition() string {
 	if o == nil || IsNil(o.LeadTargetDefinition) {
 		var ret string
 		return ret
@@ -297,7 +206,7 @@ func (o *CreateLinkRequest) GetLeadTargetDefinition() string {
 
 // GetLeadTargetDefinitionOk returns a tuple with the LeadTargetDefinition field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetLeadTargetDefinitionOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetLeadTargetDefinitionOk() (*string, bool) {
 	if o == nil || IsNil(o.LeadTargetDefinition) {
 		return nil, false
 	}
@@ -305,7 +214,7 @@ func (o *CreateLinkRequest) GetLeadTargetDefinitionOk() (*string, bool) {
 }
 
 // HasLeadTargetDefinition returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasLeadTargetDefinition() bool {
+func (o *CreateThankYouLinkRequest) HasLeadTargetDefinition() bool {
 	if o != nil && !IsNil(o.LeadTargetDefinition) {
 		return true
 	}
@@ -314,12 +223,12 @@ func (o *CreateLinkRequest) HasLeadTargetDefinition() bool {
 }
 
 // SetLeadTargetDefinition gets a reference to the given string and assigns it to the LeadTargetDefinition field.
-func (o *CreateLinkRequest) SetLeadTargetDefinition(v string) {
+func (o *CreateThankYouLinkRequest) SetLeadTargetDefinition(v string) {
 	o.LeadTargetDefinition = &v
 }
 
 // GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetMetadata() map[string]string {
+func (o *CreateThankYouLinkRequest) GetMetadata() map[string]string {
 	if o == nil || IsNil(o.Metadata) {
 		var ret map[string]string
 		return ret
@@ -329,7 +238,7 @@ func (o *CreateLinkRequest) GetMetadata() map[string]string {
 
 // GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetMetadataOk() (map[string]string, bool) {
+func (o *CreateThankYouLinkRequest) GetMetadataOk() (map[string]string, bool) {
 	if o == nil || IsNil(o.Metadata) {
 		return map[string]string{}, false
 	}
@@ -337,7 +246,7 @@ func (o *CreateLinkRequest) GetMetadataOk() (map[string]string, bool) {
 }
 
 // HasMetadata returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasMetadata() bool {
+func (o *CreateThankYouLinkRequest) HasMetadata() bool {
 	if o != nil && !IsNil(o.Metadata) {
 		return true
 	}
@@ -346,12 +255,12 @@ func (o *CreateLinkRequest) HasMetadata() bool {
 }
 
 // SetMetadata gets a reference to the given map[string]string and assigns it to the Metadata field.
-func (o *CreateLinkRequest) SetMetadata(v map[string]string) {
+func (o *CreateThankYouLinkRequest) SetMetadata(v map[string]string) {
 	o.Metadata = v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetName() string {
+func (o *CreateThankYouLinkRequest) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -361,7 +270,7 @@ func (o *CreateLinkRequest) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetNameOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -369,7 +278,7 @@ func (o *CreateLinkRequest) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasName() bool {
+func (o *CreateThankYouLinkRequest) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -378,12 +287,12 @@ func (o *CreateLinkRequest) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *CreateLinkRequest) SetName(v string) {
+func (o *CreateThankYouLinkRequest) SetName(v string) {
 	o.Name = &v
 }
 
 // GetQrcodeDesignId returns the QrcodeDesignId field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetQrcodeDesignId() string {
+func (o *CreateThankYouLinkRequest) GetQrcodeDesignId() string {
 	if o == nil || IsNil(o.QrcodeDesignId) {
 		var ret string
 		return ret
@@ -393,7 +302,7 @@ func (o *CreateLinkRequest) GetQrcodeDesignId() string {
 
 // GetQrcodeDesignIdOk returns a tuple with the QrcodeDesignId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetQrcodeDesignIdOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetQrcodeDesignIdOk() (*string, bool) {
 	if o == nil || IsNil(o.QrcodeDesignId) {
 		return nil, false
 	}
@@ -401,7 +310,7 @@ func (o *CreateLinkRequest) GetQrcodeDesignIdOk() (*string, bool) {
 }
 
 // HasQrcodeDesignId returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasQrcodeDesignId() bool {
+func (o *CreateThankYouLinkRequest) HasQrcodeDesignId() bool {
 	if o != nil && !IsNil(o.QrcodeDesignId) {
 		return true
 	}
@@ -410,12 +319,12 @@ func (o *CreateLinkRequest) HasQrcodeDesignId() bool {
 }
 
 // SetQrcodeDesignId gets a reference to the given string and assigns it to the QrcodeDesignId field.
-func (o *CreateLinkRequest) SetQrcodeDesignId(v string) {
+func (o *CreateThankYouLinkRequest) SetQrcodeDesignId(v string) {
 	o.QrcodeDesignId = &v
 }
 
 // GetQrcodeTemplateId returns the QrcodeTemplateId field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetQrcodeTemplateId() string {
+func (o *CreateThankYouLinkRequest) GetQrcodeTemplateId() string {
 	if o == nil || IsNil(o.QrcodeTemplateId) {
 		var ret string
 		return ret
@@ -425,7 +334,7 @@ func (o *CreateLinkRequest) GetQrcodeTemplateId() string {
 
 // GetQrcodeTemplateIdOk returns a tuple with the QrcodeTemplateId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetQrcodeTemplateIdOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetQrcodeTemplateIdOk() (*string, bool) {
 	if o == nil || IsNil(o.QrcodeTemplateId) {
 		return nil, false
 	}
@@ -433,7 +342,7 @@ func (o *CreateLinkRequest) GetQrcodeTemplateIdOk() (*string, bool) {
 }
 
 // HasQrcodeTemplateId returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasQrcodeTemplateId() bool {
+func (o *CreateThankYouLinkRequest) HasQrcodeTemplateId() bool {
 	if o != nil && !IsNil(o.QrcodeTemplateId) {
 		return true
 	}
@@ -442,12 +351,12 @@ func (o *CreateLinkRequest) HasQrcodeTemplateId() bool {
 }
 
 // SetQrcodeTemplateId gets a reference to the given string and assigns it to the QrcodeTemplateId field.
-func (o *CreateLinkRequest) SetQrcodeTemplateId(v string) {
+func (o *CreateThankYouLinkRequest) SetQrcodeTemplateId(v string) {
 	o.QrcodeTemplateId = &v
 }
 
 // GetShortlink returns the Shortlink field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetShortlink() string {
+func (o *CreateThankYouLinkRequest) GetShortlink() string {
 	if o == nil || IsNil(o.Shortlink) {
 		var ret string
 		return ret
@@ -457,7 +366,7 @@ func (o *CreateLinkRequest) GetShortlink() string {
 
 // GetShortlinkOk returns a tuple with the Shortlink field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetShortlinkOk() (*string, bool) {
+func (o *CreateThankYouLinkRequest) GetShortlinkOk() (*string, bool) {
 	if o == nil || IsNil(o.Shortlink) {
 		return nil, false
 	}
@@ -465,7 +374,7 @@ func (o *CreateLinkRequest) GetShortlinkOk() (*string, bool) {
 }
 
 // HasShortlink returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasShortlink() bool {
+func (o *CreateThankYouLinkRequest) HasShortlink() bool {
 	if o != nil && !IsNil(o.Shortlink) {
 		return true
 	}
@@ -474,12 +383,12 @@ func (o *CreateLinkRequest) HasShortlink() bool {
 }
 
 // SetShortlink gets a reference to the given string and assigns it to the Shortlink field.
-func (o *CreateLinkRequest) SetShortlink(v string) {
+func (o *CreateThankYouLinkRequest) SetShortlink(v string) {
 	o.Shortlink = &v
 }
 
 // GetTags returns the Tags field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetTags() []string {
+func (o *CreateThankYouLinkRequest) GetTags() []string {
 	if o == nil || IsNil(o.Tags) {
 		var ret []string
 		return ret
@@ -489,7 +398,7 @@ func (o *CreateLinkRequest) GetTags() []string {
 
 // GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetTagsOk() ([]string, bool) {
+func (o *CreateThankYouLinkRequest) GetTagsOk() ([]string, bool) {
 	if o == nil || IsNil(o.Tags) {
 		return nil, false
 	}
@@ -497,7 +406,7 @@ func (o *CreateLinkRequest) GetTagsOk() ([]string, bool) {
 }
 
 // HasTags returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasTags() bool {
+func (o *CreateThankYouLinkRequest) HasTags() bool {
 	if o != nil && !IsNil(o.Tags) {
 		return true
 	}
@@ -506,12 +415,36 @@ func (o *CreateLinkRequest) HasTags() bool {
 }
 
 // SetTags gets a reference to the given []string and assigns it to the Tags field.
-func (o *CreateLinkRequest) SetTags(v []string) {
+func (o *CreateThankYouLinkRequest) SetTags(v []string) {
 	o.Tags = v
 }
 
+// GetTitle returns the Title field value
+func (o *CreateThankYouLinkRequest) GetTitle() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Title
+}
+
+// GetTitleOk returns a tuple with the Title field value
+// and a boolean to check if the value has been set.
+func (o *CreateThankYouLinkRequest) GetTitleOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Title, true
+}
+
+// SetTitle sets field value
+func (o *CreateThankYouLinkRequest) SetTitle(v string) {
+	o.Title = v
+}
+
 // GetWaitForQrcode returns the WaitForQrcode field value if set, zero value otherwise.
-func (o *CreateLinkRequest) GetWaitForQrcode() bool {
+func (o *CreateThankYouLinkRequest) GetWaitForQrcode() bool {
 	if o == nil || IsNil(o.WaitForQrcode) {
 		var ret bool
 		return ret
@@ -521,7 +454,7 @@ func (o *CreateLinkRequest) GetWaitForQrcode() bool {
 
 // GetWaitForQrcodeOk returns a tuple with the WaitForQrcode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateLinkRequest) GetWaitForQrcodeOk() (*bool, bool) {
+func (o *CreateThankYouLinkRequest) GetWaitForQrcodeOk() (*bool, bool) {
 	if o == nil || IsNil(o.WaitForQrcode) {
 		return nil, false
 	}
@@ -529,7 +462,7 @@ func (o *CreateLinkRequest) GetWaitForQrcodeOk() (*bool, bool) {
 }
 
 // HasWaitForQrcode returns a boolean if a field has been set.
-func (o *CreateLinkRequest) HasWaitForQrcode() bool {
+func (o *CreateThankYouLinkRequest) HasWaitForQrcode() bool {
 	if o != nil && !IsNil(o.WaitForQrcode) {
 		return true
 	}
@@ -538,11 +471,11 @@ func (o *CreateLinkRequest) HasWaitForQrcode() bool {
 }
 
 // SetWaitForQrcode gets a reference to the given bool and assigns it to the WaitForQrcode field.
-func (o *CreateLinkRequest) SetWaitForQrcode(v bool) {
+func (o *CreateThankYouLinkRequest) SetWaitForQrcode(v bool) {
 	o.WaitForQrcode = &v
 }
 
-func (o CreateLinkRequest) MarshalJSON() ([]byte, error) {
+func (o CreateThankYouLinkRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -550,23 +483,16 @@ func (o CreateLinkRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o CreateLinkRequest) ToMap() (map[string]interface{}, error) {
+func (o CreateThankYouLinkRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.ConversionTracking) {
-		toSerialize["conversionTracking"] = o.ConversionTracking
-	}
 	if !IsNil(o.CustomDomainId) {
 		toSerialize["customDomainId"] = o.CustomDomainId
 	}
-	toSerialize["destination"] = o.Destination
+	if !IsNil(o.Description) {
+		toSerialize["description"] = o.Description
+	}
 	if !IsNil(o.DirectoryId) {
 		toSerialize["directoryId"] = o.DirectoryId
-	}
-	if !IsNil(o.FallbackDestination) {
-		toSerialize["fallbackDestination"] = o.FallbackDestination
-	}
-	if !IsNil(o.Id) {
-		toSerialize["id"] = o.Id
 	}
 	if !IsNil(o.LeadGoalDefinition) {
 		toSerialize["leadGoalDefinition"] = o.LeadGoalDefinition
@@ -592,18 +518,19 @@ func (o CreateLinkRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
 	}
+	toSerialize["title"] = o.Title
 	if !IsNil(o.WaitForQrcode) {
 		toSerialize["waitForQrcode"] = o.WaitForQrcode
 	}
 	return toSerialize, nil
 }
 
-func (o *CreateLinkRequest) UnmarshalJSON(data []byte) (err error) {
+func (o *CreateThankYouLinkRequest) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"destination",
+		"title",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -620,53 +547,53 @@ func (o *CreateLinkRequest) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varCreateLinkRequest := _CreateLinkRequest{}
+	varCreateThankYouLinkRequest := _CreateThankYouLinkRequest{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
 	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateLinkRequest)
+	err = decoder.Decode(&varCreateThankYouLinkRequest)
 
 	if err != nil {
 		return err
 	}
 
-	*o = CreateLinkRequest(varCreateLinkRequest)
+	*o = CreateThankYouLinkRequest(varCreateThankYouLinkRequest)
 
 	return err
 }
 
-type NullableCreateLinkRequest struct {
-	value *CreateLinkRequest
+type NullableCreateThankYouLinkRequest struct {
+	value *CreateThankYouLinkRequest
 	isSet bool
 }
 
-func (v NullableCreateLinkRequest) Get() *CreateLinkRequest {
+func (v NullableCreateThankYouLinkRequest) Get() *CreateThankYouLinkRequest {
 	return v.value
 }
 
-func (v *NullableCreateLinkRequest) Set(val *CreateLinkRequest) {
+func (v *NullableCreateThankYouLinkRequest) Set(val *CreateThankYouLinkRequest) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableCreateLinkRequest) IsSet() bool {
+func (v NullableCreateThankYouLinkRequest) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableCreateLinkRequest) Unset() {
+func (v *NullableCreateThankYouLinkRequest) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableCreateLinkRequest(val *CreateLinkRequest) *NullableCreateLinkRequest {
-	return &NullableCreateLinkRequest{value: val, isSet: true}
+func NewNullableCreateThankYouLinkRequest(val *CreateThankYouLinkRequest) *NullableCreateThankYouLinkRequest {
+	return &NullableCreateThankYouLinkRequest{value: val, isSet: true}
 }
 
-func (v NullableCreateLinkRequest) MarshalJSON() ([]byte, error) {
+func (v NullableCreateThankYouLinkRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableCreateLinkRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableCreateThankYouLinkRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
