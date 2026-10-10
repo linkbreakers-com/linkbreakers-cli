@@ -21,6 +21,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      issues: write
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -96,6 +97,7 @@ jobs:
           fi
 
       - name: Generate client and docs
+        id: generate
         if: steps.compare.outputs.needs_update == 'true' && steps.compare.outputs.force_release != 'true'
         run: |
           chmod +x ./scripts/generate-client.sh
@@ -103,6 +105,7 @@ jobs:
           go run ./cmd/linkbreakers gendocs
 
       - name: Run tests
+        id: tests
         if: steps.compare.outputs.needs_update == 'true'
         run: go test ./...
 
@@ -131,6 +134,7 @@ jobs:
           git commit -m "${{ steps.compare.outputs.commit_message }}"
 
       - name: Create and push tag
+        id: tag
         if: steps.compare.outputs.needs_update == 'true'
         run: |
           NEW_VERSION="${{ steps.compare.outputs.target_version }}"
@@ -143,6 +147,7 @@ jobs:
         run: git checkout "v${{ steps.compare.outputs.target_version }}"
 
       - name: Run GoReleaser
+        id: goreleaser
         if: steps.compare.outputs.needs_update == 'true'
         uses: goreleaser/goreleaser-action@v6
         with:
@@ -154,6 +159,7 @@ jobs:
           HOMEBREW_TAP_SSH_KEY: ${{ secrets.HOMEBREW_TAP_SSH_KEY }}
 
       - name: Publish npm package
+        id: npm
         if: steps.compare.outputs.needs_update == 'true' && env.NPM_TOKEN != ''
         working-directory: npm
         env:
@@ -162,3 +168,51 @@ jobs:
           npm version "${{ steps.compare.outputs.target_version }}" --no-git-tag-version
           npm test
           npm publish --access public --provenance
+
+      - name: Close release failure issues
+        if: success() && steps.compare.outputs.needs_update == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_VERSION: ${{ steps.compare.outputs.target_version }}
+        run: |
+          for number in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label release-failure --json number --jq '.[].number'); do
+            gh issue close "$number" --repo "$GITHUB_REPOSITORY" --comment "Released v${TARGET_VERSION}."
+          done
+
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_VERSION: ${{ steps.compare.outputs.target_version || steps.fetch-version.outputs.new_version || 'unknown' }}
+          CURRENT_VERSION: ${{ steps.current-version.outputs.current_version }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          GENERATE: ${{ steps.generate.outcome }}
+          TESTS: ${{ steps.tests.outcome }}
+          TAG: ${{ steps.tag.outcome }}
+          GORELEASER: ${{ steps.goreleaser.outcome }}
+          NPM: ${{ steps.npm.outcome }}
+        run: |
+          FAILED=""
+          [ "$GENERATE" = "failure" ] && FAILED="$FAILED Generate client and docs,"
+          [ "$TESTS" = "failure" ] && FAILED="$FAILED Run tests,"
+          [ "$TAG" = "failure" ] && FAILED="$FAILED Create and push tag,"
+          [ "$GORELEASER" = "failure" ] && FAILED="$FAILED Run GoReleaser,"
+          [ "$NPM" = "failure" ] && FAILED="$FAILED Publish npm package,"
+          FAILED="${FAILED%,}"
+          FAILED="${FAILED# }"
+          FAILED="${FAILED:-an earlier step}"
+
+          MESSAGE="The CLI update to API v${TARGET_VERSION} failed at: ${FAILED}. The CLI stays on v${CURRENT_VERSION} until this is fixed and the workflow is re-run. Run: ${RUN_URL}"
+          echo "::error title=CLI update failed::${MESSAGE}"
+          echo "### CLI update failed" >> "$GITHUB_STEP_SUMMARY"
+          echo "$MESSAGE" >> "$GITHUB_STEP_SUMMARY"
+
+          gh label create release-failure --repo "$GITHUB_REPOSITORY" --color B60205 \
+            --description "The update and release workflow failed" --force
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label release-failure --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "$MESSAGE"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --label release-failure \
+              --title "CLI update and release failing" --body "$MESSAGE"
+          fi

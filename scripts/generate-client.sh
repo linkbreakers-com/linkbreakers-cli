@@ -39,6 +39,9 @@ cp "${TMP_DIR}/generated/"*.go "${ROOT_DIR}/internal/client/generated/"
 echo "Applying gRPC-gateway int64 string overrides"
 cp "${ROOT_DIR}/scripts/overrides/grpc_int64_unmarshal.go.tmpl" "${ROOT_DIR}/internal/client/generated/grpc_int64_unmarshal.go"
 
+echo "Resolving Go module requirements of the generated client"
+(cd "${ROOT_DIR}" && go mod tidy)
+
 NEW_VERSION="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["info"]["version"])' "${TMP_DIR}/openapi-3.2.json")"
 printf '%s\n' "${NEW_VERSION}" > "${ROOT_DIR}/OPENAPI_VERSION"
 
