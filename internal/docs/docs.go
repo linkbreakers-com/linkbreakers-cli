@@ -32,6 +32,10 @@ func Generate(root *cobra.Command, outDir string) error {
 		"The `linkbreakers` CLI is the official command line interface for the Linkbreakers API.\n" +
 		"Prefer first-class commands like `linkbreakers links list` and `linkbreakers directories create`.\n" +
 		"If a needed operation is not exposed yet, use `linkbreakers raw METHOD PATH`.\n\n" +
+		"Install:\n" +
+		"- Homebrew: `brew install linkbreakers-com/tap/linkbreakers`\n" +
+		"- npm: `npm install -g linkbreakers-cli`\n" +
+		"- Script: `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`\n\n" +
 		"Authentication:\n" +
 		"- Environment variable: `LINKBREAKERS_TOKEN`\n" +
 		"- Persistent config: `linkbreakers auth set-token`\n\n" +

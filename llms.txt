@@ -3,7 +3,10 @@
 The `linkbreakers` binary is the official CLI for the Linkbreakers API.
 
 Install:
-- `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`
+- Homebrew: `brew install linkbreakers-com/tap/linkbreakers`
+- npm: `npm install -g linkbreakers-cli` (the npm package `linkbreakers` is the TypeScript SDK, not the CLI)
+- Script: `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`
+- Binaries: https://github.com/linkbreakers-com/linkbreakers-cli/releases
 
 Preferred usage:
 - `linkbreakers links list`
@@ -20,8 +23,11 @@ Fallback:
 - `linkbreakers raw METHOD PATH`
 
 Update:
-- `linkbreakers self-update`
+- Homebrew: `brew upgrade linkbreakers`
+- npm: `npm install -g linkbreakers-cli@latest`
+- Script or binary installs: `linkbreakers self-update`
 
 Primary human-readable docs:
 - `README.md`
 - `docs/commands/linkbreakers.md`
+- Agent skills: https://github.com/linkbreakers-com/agent-skills
