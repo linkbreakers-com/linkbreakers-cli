@@ -20,10 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write
       issues: write
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -41,7 +38,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          registry-url: "https://registry.npmjs.org"
 
       - name: Install OpenAPI Generator
         run: npm install -g @openapitools/openapi-generator-cli
@@ -158,17 +154,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_SSH_KEY: ${{ secrets.HOMEBREW_TAP_SSH_KEY }}
 
-      - name: Publish npm package
-        id: npm
-        if: steps.compare.outputs.needs_update == 'true' && env.NPM_TOKEN != ''
-        working-directory: npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm version "${{ steps.compare.outputs.target_version }}" --no-git-tag-version
-          npm test
-          npm publish --access public --provenance
-
       - name: Close release failure issues
         if: success() && steps.compare.outputs.needs_update == 'true'
         env:
@@ -190,14 +175,12 @@ jobs:
           TESTS: ${{ steps.tests.outcome }}
           TAG: ${{ steps.tag.outcome }}
           GORELEASER: ${{ steps.goreleaser.outcome }}
-          NPM: ${{ steps.npm.outcome }}
         run: |
           FAILED=""
           [ "$GENERATE" = "failure" ] && FAILED="$FAILED Generate client and docs,"
           [ "$TESTS" = "failure" ] && FAILED="$FAILED Run tests,"
           [ "$TAG" = "failure" ] && FAILED="$FAILED Create and push tag,"
           [ "$GORELEASER" = "failure" ] && FAILED="$FAILED Run GoReleaser,"
-          [ "$NPM" = "failure" ] && FAILED="$FAILED Publish npm package,"
           FAILED="${FAILED%,}"
           FAILED="${FAILED# }"
           FAILED="${FAILED:-an earlier step}"
