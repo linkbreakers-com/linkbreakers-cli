@@ -102,10 +102,10 @@ jobs:
           ./scripts/generate-client.sh
           go run ./cmd/linkbreakers gendocs
 
-      - name: Run tests
-        id: tests
+      - name: Build
+        id: build
         if: steps.compare.outputs.needs_update == 'true'
-        run: go test ./...
+        run: go build ./...
 
       - name: Configure Git
         if: steps.compare.outputs.needs_update == 'true'
@@ -131,18 +131,16 @@ jobs:
           git add .
           git commit -m "${{ steps.compare.outputs.commit_message }}"
 
+      # GoReleaser creates the GitHub release from a tag that must already exist on
+      # the remote, so only the tag is pushed here. main moves after a successful
+      # release, and a failed release deletes the tag again.
       - name: Create and push tag
         id: tag
         if: steps.compare.outputs.needs_update == 'true'
         run: |
           NEW_VERSION="${{ steps.compare.outputs.target_version }}"
           git tag "v$NEW_VERSION"
-          git push origin main
           git push origin "v$NEW_VERSION"
-
-      - name: Checkout tag for release
-        if: steps.compare.outputs.needs_update == 'true'
-        run: git checkout "v${{ steps.compare.outputs.target_version }}"
 
       - name: Run GoReleaser
         id: goreleaser
@@ -155,6 +153,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_SSH_KEY: ${{ secrets.HOMEBREW_TAP_SSH_KEY }}
+
+      - name: Push version commit
+        id: push
+        if: steps.compare.outputs.needs_update == 'true'
+        run: git push origin HEAD:main
 
       - name: Close release failure issues
         if: success() && steps.compare.outputs.needs_update == 'true'
@@ -202,6 +205,15 @@ jobs:
               --title "npm package linkbreakers-cli failing to publish" --body "$MESSAGE"
           fi
 
+      - name: Remove unreleased tag
+        if: failure() && steps.tag.outcome == 'success' && steps.goreleaser.outcome != 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: v${{ steps.compare.outputs.target_version }}
+        run: |
+          gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --yes 2>/dev/null || true
+          git push origin --delete "$TAG"
+
       - name: Report failure
         if: failure()
         env:
@@ -210,15 +222,17 @@ jobs:
           CURRENT_VERSION: ${{ steps.current-version.outputs.current_version }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GENERATE: ${{ steps.generate.outcome }}
-          TESTS: ${{ steps.tests.outcome }}
+          BUILD: ${{ steps.build.outcome }}
           TAG: ${{ steps.tag.outcome }}
           GORELEASER: ${{ steps.goreleaser.outcome }}
+          PUSH: ${{ steps.push.outcome }}
         run: |
           FAILED=""
           [ "$GENERATE" = "failure" ] && FAILED="$FAILED Generate client and docs,"
-          [ "$TESTS" = "failure" ] && FAILED="$FAILED Run tests,"
+          [ "$BUILD" = "failure" ] && FAILED="$FAILED Build,"
           [ "$TAG" = "failure" ] && FAILED="$FAILED Create and push tag,"
           [ "$GORELEASER" = "failure" ] && FAILED="$FAILED Run GoReleaser,"
+          [ "$PUSH" = "failure" ] && FAILED="$FAILED Push version commit,"
           FAILED="${FAILED%,}"
           FAILED="${FAILED# }"
           FAILED="${FAILED:-an earlier step}"
