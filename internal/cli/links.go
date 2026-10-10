@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"strconv"
 
 	linkbreakers "github.com/linkbreakers-com/linkbreakers-cli/internal/client/generated"
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/output"
@@ -88,7 +89,7 @@ func (a *app) newLinksListCommand() *cobra.Command {
 						item.GetName(),
 						item.GetShortlink(),
 						item.GetEntrypoint(),
-						item.GetEventCount(),
+						strconv.FormatInt(item.GetEventCount(), 10),
 					})
 				}
 				return output.PrintTable([]string{"ID", "NAME", "SHORTLINK", "ENTRYPOINT", "EVENTS"}, rows)

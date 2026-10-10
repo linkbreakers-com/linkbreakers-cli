@@ -36,9 +36,6 @@ openapi-generator-cli generate \
 rm -f "${ROOT_DIR}/internal/client/generated/"*.go
 cp "${TMP_DIR}/generated/"*.go "${ROOT_DIR}/internal/client/generated/"
 
-echo "Applying gRPC-gateway int64 string overrides"
-cp "${ROOT_DIR}/scripts/overrides/grpc_int64_unmarshal.go.tmpl" "${ROOT_DIR}/internal/client/generated/grpc_int64_unmarshal.go"
-
 echo "Resolving Go module requirements of the generated client"
 (cd "${ROOT_DIR}" && go mod tidy)
 
