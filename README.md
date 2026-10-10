@@ -109,7 +109,7 @@ Releases are automated through GitHub Actions:
 6. GoReleaser publishes macOS, Linux, and Windows binaries to GitHub Releases and the Homebrew cask to `linkbreakers-com/homebrew-tap`.
 7. The `npm/` wrapper is published to npm as `linkbreakers-cli` with the same version.
 
-Publishing to Homebrew and npm needs the `HOMEBREW_TAP_GITHUB_TOKEN` and `NPM_TOKEN` repository secrets. Without them those two steps are skipped and the GitHub Release still ships.
+Publishing to Homebrew and npm needs the `HOMEBREW_TAP_SSH_KEY` (private half of a write deploy key on `linkbreakers-com/homebrew-tap`) and `NPM_TOKEN` repository secrets. Without them those two steps are skipped and the GitHub Release still ships.
 
 ## Local Development
 

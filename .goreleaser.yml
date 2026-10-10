@@ -53,7 +53,7 @@ homebrew_casks:
     description: Official CLI for the Linkbreakers API
     license: MIT
     directory: Casks
-    skip_upload: '{{ if index .Env "HOMEBREW_TAP_GITHUB_TOKEN" }}false{{ else }}true{{ end }}'
+    skip_upload: '{{ if index .Env "HOMEBREW_TAP_SSH_KEY" }}false{{ else }}true{{ end }}'
     commit_msg_template: "chore: update linkbreakers cask to {{ .Tag }}"
     commit_author:
       name: linkbreakers-bot
@@ -68,7 +68,9 @@ homebrew_casks:
       owner: linkbreakers-com
       name: homebrew-tap
       branch: main
-      token: '{{ index .Env "HOMEBREW_TAP_GITHUB_TOKEN" }}'
+      git:
+        url: git@github.com:linkbreakers-com/homebrew-tap.git
+        private_key: '{{ index .Env "HOMEBREW_TAP_SSH_KEY" }}'
 
 changelog:
   use: git

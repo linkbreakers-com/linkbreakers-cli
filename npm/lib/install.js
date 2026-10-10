@@ -28,6 +28,7 @@ function packageVersion() {
 async function download(url) {
   const res = await fetch(url, { headers: { 'User-Agent': 'linkbreakers-cli-npm' } });
   if (!res.ok) throw new Error(`GET ${url} failed: ${res.status} ${res.statusText}`);
+  if (new URL(res.url).protocol !== 'https:') throw new Error(`refusing non-HTTPS download from ${res.url}`);
   return Buffer.from(await res.arrayBuffer());
 }
 
@@ -109,8 +110,13 @@ async function install() {
   fs.mkdirSync(VENDOR_DIR, { recursive: true });
   const dest = path.join(VENDOR_DIR, t.exe);
   const tmp = `${dest}.${process.pid}.tmp`;
-  fs.writeFileSync(tmp, binary, { mode: 0o755 });
-  fs.renameSync(tmp, dest);
+  try {
+    fs.writeFileSync(tmp, binary, { mode: 0o755 });
+    fs.renameSync(tmp, dest);
+  } catch (err) {
+    fs.rmSync(tmp, { force: true });
+    throw err;
+  }
   return dest;
 }
 
