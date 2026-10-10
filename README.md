@@ -14,59 +14,48 @@ linkbreakers raw GET /v1/links?pageSize=5
 
 ## Installation
 
-The easiest install path for macOS and Linux is:
+### Homebrew (macOS and Linux)
+
+```bash
+brew install linkbreakers-com/tap/linkbreakers
+```
+
+### npm (any OS with Node.js 18+)
+
+```bash
+npm install -g linkbreakers-cli
+```
+
+The npm package downloads the prebuilt binary for your platform from GitHub Releases and verifies it against the release `checksums.txt`. Note that the npm package `linkbreakers` is the TypeScript SDK; the CLI is `linkbreakers-cli`.
+
+### Install script (macOS and Linux)
 
 ```bash
 curl -fsSL https://cli.linkbreakers.com/install.sh | bash
 ```
 
-That installer:
+The installer detects OS and architecture and installs the latest GitHub Release.
 
-- detects OS and architecture automatically
-- downloads the latest GitHub Release
-- installs `linkbreakers` without requiring you to pick a version manually
+### Windows (PowerShell)
 
-Direct downloads remain available from GitHub Releases:
-
-- Repository: `linkbreakers-com/linkbreakers-cli`
-- Releases: `https://github.com/linkbreakers-com/linkbreakers-cli/releases`
-
-No extra package registry is required. GitHub Releases remains the canonical binary distribution.
-
-### Quick Install
-
-#### macOS and Linux
-
-```bash
-curl -fsSL https://cli.linkbreakers.com/install.sh | bash
-```
-
-#### Windows (PowerShell)
+Use npm, or download the binary directly:
 
 ```powershell
 $version = "<version>"
-Invoke-WebRequest -Uri "https://github.com/linkbreakers-com/linkbreakers-cli/releases/download/v$version/linkbreakers-cli_$version_windows_amd64.zip" -OutFile "linkbreakers.zip"
+Invoke-WebRequest -Uri "https://github.com/linkbreakers-com/linkbreakers-cli/releases/download/v$version/linkbreakers-cli_${version}_windows_amd64.zip" -OutFile "linkbreakers.zip"
 Expand-Archive -Path "linkbreakers.zip" -DestinationPath ".\\linkbreakers"
 Move-Item ".\\linkbreakers\\linkbreakers.exe" "$HOME\\bin\\linkbreakers.exe"
 ```
 
-Replace `<version>` with a real release like `1.42.8`, or download the right archive from the Releases page directly.
+Replace `<version>` with a real release like `1.140.0`. All archives are on the [Releases page](https://github.com/linkbreakers-com/linkbreakers-cli/releases).
 
 ## Updating
 
-The CLI checks periodically for new releases and will let users know when an update is available.
+The CLI checks periodically for new releases and tells you how to update for the way it was installed:
 
-To update on supported platforms:
-
-```bash
-linkbreakers self-update
-```
-
-You can also rerun the installer:
-
-```bash
-curl -fsSL https://cli.linkbreakers.com/install.sh | bash
-```
+- Homebrew: `brew upgrade linkbreakers`
+- npm: `npm install -g linkbreakers-cli@latest`
+- Install script or direct download: `linkbreakers self-update` (or rerun the installer)
 
 ## Authentication
 
@@ -117,7 +106,10 @@ Releases are automated through GitHub Actions:
 3. The internal Go client is regenerated from the OpenAPI spec.
 4. Command docs are regenerated.
 5. A git tag is created.
-6. GoReleaser publishes macOS, Linux, and Windows binaries to GitHub Releases.
+6. GoReleaser publishes macOS, Linux, and Windows binaries to GitHub Releases and the Homebrew cask to `linkbreakers-com/homebrew-tap`.
+7. The `npm/` wrapper is published to npm as `linkbreakers-cli` with the same version.
+
+Publishing to Homebrew and npm needs the `HOMEBREW_TAP_SSH_KEY` (private half of a write deploy key on `linkbreakers-com/homebrew-tap`) and `NPM_TOKEN` repository secrets. Without them those two steps are skipped and the GitHub Release still ships.
 
 ## Local Development
 

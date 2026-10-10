@@ -45,5 +45,32 @@ release:
     owner: linkbreakers-com
     name: linkbreakers-cli
 
+homebrew_casks:
+  - name: linkbreakers
+    ids: [default]
+    binaries: [linkbreakers]
+    homepage: https://linkbreakers.com/cli
+    description: Official CLI for the Linkbreakers API
+    license: MIT
+    directory: Casks
+    skip_upload: '{{ if index .Env "HOMEBREW_TAP_SSH_KEY" }}false{{ else }}true{{ end }}'
+    commit_msg_template: "chore: update linkbreakers cask to {{ .Tag }}"
+    commit_author:
+      name: linkbreakers-bot
+      email: support@linkbreakers.com
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/linkbreakers"]
+          end
+    repository:
+      owner: linkbreakers-com
+      name: homebrew-tap
+      branch: main
+      git:
+        url: git@github.com:linkbreakers-com/homebrew-tap.git
+        private_key: '{{ index .Env "HOMEBREW_TAP_SSH_KEY" }}'
+
 changelog:
   use: git

@@ -73,6 +73,17 @@ func MaybeNotify(currentVersion string, stderr io.Writer) {
 		return
 	}
 
+	method := DetectInstallMethod()
+	if method != InstallMethodDirect {
+		_, _ = fmt.Fprintf(stderr,
+			"A new version of linkbreakers is available: %s (current: %s)\nUpdate with: %s\n",
+			release.Version,
+			currentVersion,
+			method.UpdateCommand(),
+		)
+		return
+	}
+
 	_, _ = fmt.Fprintf(stderr,
 		"A new version of linkbreakers is available: %s (current: %s)\nUpdate with: linkbreakers self-update\nInstaller: curl -fsSL %s | bash\n",
 		release.Version,
@@ -90,6 +101,10 @@ func SelfUpdate(currentVersion string) (ReleaseInfo, error) {
 
 	if currentVersion != "" && currentVersion != "dev" && compareVersions(release.Version, currentVersion) <= 0 {
 		return release, nil
+	}
+
+	if method := DetectInstallMethod(); method != InstallMethodDirect {
+		return release, fmt.Errorf("linkbreakers was installed with %s; update it with: %s", method, method.UpdateCommand())
 	}
 
 	if runtime.GOOS == "windows" {

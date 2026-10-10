@@ -4,6 +4,11 @@ The `linkbreakers` CLI is the official command line interface for the Linkbreake
 Prefer first-class commands like `linkbreakers links list` and `linkbreakers directories create`.
 If a needed operation is not exposed yet, use `linkbreakers raw METHOD PATH`.
 
+Install:
+- Homebrew: `brew install linkbreakers-com/tap/linkbreakers`
+- npm: `npm install -g linkbreakers-cli`
+- Script: `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`
+
 Authentication:
 - Environment variable: `LINKBREAKERS_TOKEN`
 - Persistent config: `linkbreakers auth set-token`
