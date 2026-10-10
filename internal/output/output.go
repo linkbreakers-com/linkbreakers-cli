@@ -32,19 +32,23 @@ func PrintTable(headers []string, rows [][]string) error {
 	return w.Flush()
 }
 
+// ReadBody never reads stdin implicitly: agent and CI shells keep a non-TTY
+// stdin open forever, which made every bodyless call block. Use --body-file -.
 func ReadBody(bodyArg, bodyFile string) ([]byte, error) {
+	return readBody(bodyArg, bodyFile, os.Stdin)
+}
+
+func readBody(bodyArg, bodyFile string, stdin io.Reader) ([]byte, error) {
 	switch {
 	case bodyArg != "" && bodyFile != "":
 		return nil, fmt.Errorf("use either --body or --body-file, not both")
 	case bodyArg != "":
 		return []byte(bodyArg), nil
+	case bodyFile == "-":
+		return io.ReadAll(stdin)
 	case bodyFile != "":
 		return os.ReadFile(bodyFile)
 	default:
-		stat, err := os.Stdin.Stat()
-		if err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
-			return io.ReadAll(os.Stdin)
-		}
 		return nil, nil
 	}
 }

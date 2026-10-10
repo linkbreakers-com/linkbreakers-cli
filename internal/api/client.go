@@ -21,6 +21,9 @@ type Client struct {
 }
 
 func NewClient(cfg config.RuntimeConfig) *Client {
+	if cfg.Timeout <= 0 {
+		cfg.Timeout = config.DefaultRuntimeConfig().Timeout
+	}
 	genCfg := linkbreakers.NewConfiguration()
 	genCfg.Servers = linkbreakers.ServerConfigurations{
 		{URL: cfg.BaseURL, Description: "resolved by linkbreakers CLI"},

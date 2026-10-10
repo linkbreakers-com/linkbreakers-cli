@@ -20,6 +20,7 @@ linkbreakers raw METHOD PATH [flags]
   linkbreakers raw GET /v1/links?pageSize=5
   linkbreakers raw POST /v1/links --body '{"destination":"https://example.com"}'
   linkbreakers raw PATCH /v1/links/<id> --body-file link.json
+  cat link.json | linkbreakers raw POST /v1/links --body-file -
 
 ```
 
@@ -27,7 +28,7 @@ linkbreakers raw METHOD PATH [flags]
 
 ```
       --body string          Inline JSON request body.
-      --body-file string     Path to a JSON request body file.
+      --body-file string     Path to a JSON request body file, or - to read stdin.
       --header stringArray   Extra header in key=value form. Repeatable.
   -h, --help                 help for raw
 ```
