@@ -23,7 +23,8 @@ func (a *app) newRawCommand() *cobra.Command {
 		Example: "" +
 			"  linkbreakers raw GET /v1/links?pageSize=5\n" +
 			"  linkbreakers raw POST /v1/links --body '{\"destination\":\"https://example.com\"}'\n" +
-			"  linkbreakers raw PATCH /v1/links/<id> --body-file link.json\n",
+			"  linkbreakers raw PATCH /v1/links/<id> --body-file link.json\n" +
+			"  cat link.json | linkbreakers raw POST /v1/links --body-file -\n",
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			client, _, err := a.requireClient()
@@ -90,7 +91,7 @@ func (a *app) newRawCommand() *cobra.Command {
 	}
 
 	cmd.Flags().StringVar(&body, "body", "", "Inline JSON request body.")
-	cmd.Flags().StringVar(&bodyFile, "body-file", "", "Path to a JSON request body file.")
+	cmd.Flags().StringVar(&bodyFile, "body-file", "", "Path to a JSON request body file, or - to read stdin.")
 	cmd.Flags().StringArrayVar(&headers, "header", nil, "Extra header in key=value form. Repeatable.")
 	return cmd
 }

@@ -154,9 +154,11 @@ func Resolve(tokenFlag, baseURLFlag, outputFlag string) (RuntimeConfig, error) {
 	return cfg, nil
 }
 
+var ErrMissingToken = errors.New("no API token configured: run `linkbreakers auth set-token --token <api-token>`, set LINKBREAKERS_TOKEN, or pass --token")
+
 func (c RuntimeConfig) RequireToken() error {
 	if strings.TrimSpace(c.Token) == "" {
-		return errors.New("missing API token: set LINKBREAKERS_TOKEN or run `linkbreakers auth set-token`")
+		return ErrMissingToken
 	}
 	return nil
 }
