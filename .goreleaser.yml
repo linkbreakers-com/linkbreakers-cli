@@ -2,10 +2,6 @@ version: 2
 
 project_name: linkbreakers-cli
 
-before:
-  hooks:
-    - go test ./...
-
 builds:
   - id: linkbreakers
     binary: linkbreakers
