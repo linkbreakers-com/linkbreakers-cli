@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
       issues: write
 
     steps:
@@ -163,6 +164,35 @@ jobs:
           for number in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label release-failure --json number --jq '.[].number'); do
             gh issue close "$number" --repo "$GITHUB_REPOSITORY" --comment "Released v${TARGET_VERSION}."
           done
+
+      - name: Publish npm package
+        id: npm
+        if: steps.goreleaser.outcome == 'success'
+        continue-on-error: true
+        working-directory: npm
+        env:
+          VERSION: ${{ steps.compare.outputs.target_version }}
+        run: |
+          npm install -g npm@latest
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+          npm publish --provenance --access public
+
+      - name: Report npm failure
+        if: steps.npm.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "Publishing linkbreakers-cli@${{ steps.compare.outputs.target_version }} to npm failed. The GitHub release and Homebrew cask shipped; npm catches up on the next release. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        run: |
+          echo "::error title=npm package not published::${MESSAGE}"
+          gh label create release-failure --repo "$GITHUB_REPOSITORY" --color B60205 \
+            --description "The update and release workflow failed" --force
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label release-failure --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "$MESSAGE"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --label release-failure \
+              --title "npm package linkbreakers-cli failing to publish" --body "$MESSAGE"
+          fi
 
       - name: Report failure
         if: failure()

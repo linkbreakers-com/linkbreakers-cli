@@ -107,7 +107,7 @@ Releases are automated through GitHub Actions:
 4. Command docs are regenerated.
 5. A git tag is created.
 6. GoReleaser publishes macOS, Linux, and Windows binaries to GitHub Releases and the Homebrew cask to `linkbreakers-com/homebrew-tap`.
-7. The npm wrapper `linkbreakers-cli` is published at the same version by the TypeScript SDK release job, from [`packages/linkbreakers-cli`](https://github.com/linkbreakers-com/linkbreakers-typescript/tree/main/packages/linkbreakers-cli) in `linkbreakers-com/linkbreakers-typescript`. It installs the release with its own version, or the latest release while that one is still being built.
+7. The [`npm/`](./npm) wrapper is published to npm as `linkbreakers-cli` with the same version, through npm trusted publishing (no token). A failure there does not block the GitHub release; it opens a `release-failure` issue.
 
 Publishing to Homebrew needs the `HOMEBREW_TAP_SSH_KEY` repository secret (private half of a write deploy key on `linkbreakers-com/homebrew-tap`).
 

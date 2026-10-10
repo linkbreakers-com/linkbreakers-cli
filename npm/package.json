@@ -1,0 +1,46 @@
+{
+  "name": "linkbreakers-cli",
+  "version": "0.0.0",
+  "description": "Official CLI for the Linkbreakers API. Installs the prebuilt linkbreakers binary for your platform.",
+  "keywords": [
+    "linkbreakers",
+    "cli",
+    "qr-code",
+    "lead-capture",
+    "links"
+  ],
+  "homepage": "https://linkbreakers.com/cli",
+  "bugs": "https://github.com/linkbreakers-com/linkbreakers-cli/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linkbreakers-com/linkbreakers-cli.git",
+    "directory": "npm"
+  },
+  "license": "MIT",
+  "author": "Linkbreakers <support@linkbreakers.com>",
+  "bin": {
+    "linkbreakers": "bin/linkbreakers.js"
+  },
+  "files": [
+    "bin/",
+    "lib/install.js",
+    "lib/postinstall.js",
+    "README.md"
+  ],
+  "scripts": {
+    "postinstall": "node lib/postinstall.js",
+    "test": "node --test lib/install.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ]
+}
