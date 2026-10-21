@@ -3,8 +3,10 @@ package cli
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -33,8 +35,11 @@ func fakeAgentHost(t *testing.T, claimed *bool) *httptest.Server {
 				_ = json.NewEncoder(w).Encode(map[string]string{"error": "invalid_request"})
 				return
 			}
+			// An older server still sent the emailed code and link back; the
+			// CLI must never print them.
 			_ = json.NewEncoder(w).Encode(map[string]any{"claim_attempt": map[string]any{
-				"user_code": "123456", "verification_uri": "https://app.example/agent/claim?claim_attempt_token=cat_1", "interval": 5,
+				"delivery": "email", "email": body["email"], "interval": 5,
+				"user_code": "123456", "verification_uri": "https://app.example/agent/claim?claim_attempt_token=cat_1",
 			}})
 		case "/oauth/token":
 			if !*claimed {
@@ -47,6 +52,21 @@ func fakeAgentHost(t *testing.T, claimed *bool) *httptest.Server {
 			w.WriteHeader(http.StatusNotFound)
 		}
 	}))
+}
+
+func captureStdout(t *testing.T, fn func()) string {
+	t.Helper()
+	r, w, err := os.Pipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	orig := os.Stdout
+	os.Stdout = w
+	fn()
+	os.Stdout = orig
+	_ = w.Close()
+	out, _ := io.ReadAll(r)
+	return string(out)
 }
 
 func useTempConfig(t *testing.T) {
@@ -76,8 +96,13 @@ func TestSignupSavesTokenAndClaimUpgradesIt(t *testing.T) {
 	if err := runCLI(t, "signup"); err == nil || !strings.Contains(err.Error(), "--email is required") {
 		t.Fatalf("signup without email = %v", err)
 	}
-	if err := runCLI(t, "signup", "--email", "you@example.com"); err != nil {
-		t.Fatalf("signup: %v", err)
+	printed := captureStdout(t, func() {
+		if err := runCLI(t, "signup", "--email", "you@example.com"); err != nil {
+			t.Fatalf("signup: %v", err)
+		}
+	})
+	if strings.Contains(printed, "123456") || strings.Contains(printed, "cat_1") {
+		t.Fatalf("signup printed the emailed claim code or link:\n%s", printed)
 	}
 	cfg, _ := config.LoadFileConfig()
 	if cfg.Token != "lb_agent_token" || cfg.Claim == nil || cfg.Claim.Email != "you@example.com" || cfg.Claim.ClaimToken != "clm_1" {

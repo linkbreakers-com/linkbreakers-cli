@@ -20,7 +20,7 @@ npx -y linkbreakers-cli signup --email you@example.com
 npx -y linkbreakers-cli links create --destination https://example.com --name "My first link"
 ```
 
-`signup` creates a free workspace, saves its API token, and emails the person a link and a 6-digit code to claim it. Until it is claimed, the token can create and manage links, QR codes, workflows and page themes and read analytics; an unclaimed workspace is deleted with everything in it 24 hours after signup. Every command run in the meantime reminds you on stderr, and once the person claims it the saved token is upgraded automatically. `linkbreakers claim --wait` waits for the claim.
+`signup` creates a free workspace, saves its API token, and emails the person a link and a 6-digit code to claim it. They go only to that inbox, never back to the agent, so claiming also verifies the address. Until it is claimed, the token can create and manage links, QR codes, workflows and page themes and read analytics; an unclaimed workspace is deleted with everything in it 24 hours after signup. Every command run in the meantime reminds you on stderr, and once the person claims it the saved token is upgraded automatically. `linkbreakers claim --wait` waits for the claim.
 
 ## Installation
 

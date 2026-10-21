@@ -43,7 +43,7 @@ const llmsTxt = "" +
 	"generated from the API's OpenAPI document: `linkbreakers <service> <operation> --help` lists its flags.\n\n" +
 	"Start in one command, no account needed:\n" +
 	"- `npx -y linkbreakers-cli signup --email <the person's email>` creates a free workspace and saves its API token.\n" +
-	"  The person receives a link and a 6-digit code to claim it; unclaimed, it is deleted after 24 hours.\n" +
+	"  The person receives a link and a 6-digit code to claim it, by email only, so claiming also verifies their address; unclaimed, it is deleted after 24 hours.\n" +
 	"- Then: `npx -y linkbreakers-cli links create --destination https://example.com --name \"My link\"`\n" +
 	"  (`linkbreakers ...` once installed with `npm install -g linkbreakers-cli`)\n" +
 	"- Analytics: `npx -y linkbreakers-cli analytics-data --help`, `npx -y linkbreakers-cli metrics --help`\n\n" +

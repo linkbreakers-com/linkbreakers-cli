@@ -31,9 +31,7 @@ type registration struct {
 type claimStarted struct {
 	ExpiresAt    string `json:"expires_at"`
 	ClaimAttempt struct {
-		UserCode        string `json:"user_code"`
-		VerificationURI string `json:"verification_uri"`
-		Interval        int    `json:"interval"`
+		Interval int `json:"interval"`
 	} `json:"claim_attempt"`
 }
 
@@ -63,7 +61,7 @@ func (a *app) newSignupCommand() *cobra.Command {
 		Use:   "signup",
 		Short: "Create a Linkbreakers workspace and save its API token, in one step",
 		Long: "Creates a free Linkbreakers workspace and saves an API token for it, so every other command works right away.\n\n" +
-			"The workspace is handed to the person whose email you pass: they receive a link and a 6-digit code to claim it. " +
+			"The workspace is handed to the person whose email you pass: they receive a link and a 6-digit code to claim it, by email only. " +
 			"Until they do, the token can create and manage links, QR codes, workflows and page themes and read analytics. " +
 			"An unclaimed workspace is deleted with everything in it 24 hours after signup.\n\n" +
 			"Already have an account? Create a token in the dashboard and run `linkbreakers auth set-token` instead.",
@@ -121,12 +119,12 @@ func (a *app) newSignupCommand() *cobra.Command {
 					"instructions": fmt.Sprintf("The workspace works, but the claim email could not be sent. Run `linkbreakers claim --email %s` before %s or the workspace is deleted.", email, formatDeadline(expires)),
 				}
 			} else {
-				result["claim"] = claimSummary(email, expires, started)
+				result["claim"] = claimSummary(email, expires)
 			}
 			return output.PrintJSON(result)
 		},
 	}
-	cmd.Flags().StringVar(&email, "email", "", "Email of the person the workspace is for. They receive a link and a code to claim it. Required.")
+	cmd.Flags().StringVar(&email, "email", "", "Email of the person the workspace is for. Only they receive the link and code that claim it, so ask them for their real address. Required.")
 	cmd.Flags().BoolVar(&force, "force", false, "Replace the token already configured with the new workspace's.")
 	return cmd
 }
@@ -138,8 +136,8 @@ func (a *app) newClaimCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "claim",
 		Short: "Hand the workspace created by `linkbreakers signup` to a person",
-		Long: "Emails the person a link and a 6-digit code to claim the workspace `linkbreakers signup` created, and prints both so you can pass them on too. " +
-			"Each call replaces the previous link. With --wait, it waits until the workspace is claimed and then upgrades the saved token to the claimed workspace's permissions.",
+		Long: "Emails the person a link and a 6-digit code to claim the workspace `linkbreakers signup` created. They go only to the inbox, so claiming also verifies the address. " +
+			"Each call replaces the previous email's link. With --wait, it waits until the workspace is claimed and then upgrades the saved token to the claimed workspace's permissions.",
 		Example: "" +
 			"  linkbreakers claim --email you@example.com\n" +
 			"  linkbreakers claim --wait\n",
@@ -173,9 +171,9 @@ func (a *app) newClaimCommand() *cobra.Command {
 					return err
 				}
 				if !wait {
-					return output.PrintJSON(map[string]any{"claim": claimSummary(claim.Email, claim.ExpiresAt, started)})
+					return output.PrintJSON(map[string]any{"claim": claimSummary(claim.Email, claim.ExpiresAt)})
 				}
-				fmt.Fprintf(os.Stderr, "Waiting for %s to open the link we emailed and enter the code %s...\n", claim.Email, started.ClaimAttempt.UserCode)
+				fmt.Fprintf(os.Stderr, "Waiting for %s to open the link we emailed and enter its code...\n", claim.Email)
 			}
 
 			for {
@@ -203,15 +201,13 @@ func (a *app) newClaimCommand() *cobra.Command {
 	return cmd
 }
 
-func claimSummary(email string, expires time.Time, started claimStarted) map[string]any {
+func claimSummary(email string, expires time.Time) map[string]any {
 	return map[string]any{
-		"status":           "emailed",
-		"email":            email,
-		"required_by":      expires.UTC().Format(time.RFC3339),
-		"verification_uri": started.ClaimAttempt.VerificationURI,
-		"user_code":        started.ClaimAttempt.UserCode,
-		"instructions": fmt.Sprintf("We emailed %s a link and a 6-digit code. Ask them to open it and enter %s before %s (or give them this link: %s). An unclaimed workspace is deleted with its links and QR codes at that time.",
-			email, started.ClaimAttempt.UserCode, formatDeadline(expires), started.ClaimAttempt.VerificationURI),
+		"status":      "emailed",
+		"email":       email,
+		"required_by": expires.UTC().Format(time.RFC3339),
+		"instructions": fmt.Sprintf("We emailed %s a link to claim this workspace. Ask them to open it before %s; only they have it. If it did not arrive, check the address and run `linkbreakers claim --email <address>` to send a new one. An unclaimed workspace is deleted with its links and QR codes at that time.",
+			email, formatDeadline(expires)),
 	}
 }
 
