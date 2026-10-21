@@ -1,33 +1,28 @@
 # Linkbreakers CLI
 
-The `linkbreakers` binary is the official CLI for the Linkbreakers API.
+The `linkbreakers` binary is the official CLI for the Linkbreakers API. Every API operation is a command,
+generated from the API's OpenAPI document: `linkbreakers <service> <operation> --help` lists its flags.
+
+Start in one command, no account needed:
+- `npx -y linkbreakers-cli signup --email <the person's email>` creates a free workspace and saves its API token.
+  The person receives a link and a 6-digit code to claim it; unclaimed, it is deleted after 24 hours.
+- Then: `npx -y linkbreakers-cli links create --destination https://example.com --name "My link"`
+  (`linkbreakers ...` once installed with `npm install -g linkbreakers-cli`)
+- Analytics: `npx -y linkbreakers-cli analytics-data --help`, `npx -y linkbreakers-cli metrics --help`
+
+Already have an account:
+- Create a token at https://app.linkbreakers.com/workspace/dashboard/api-tokens
+- `linkbreakers auth set-token --token <token>` or set `LINKBREAKERS_TOKEN`
 
 Install:
-- Homebrew: `brew install linkbreakers-com/tap/linkbreakers`
 - npm: `npm install -g linkbreakers-cli` (the npm package `linkbreakers` is the TypeScript SDK, not the CLI)
+- Homebrew: `brew install linkbreakers-com/tap/linkbreakers`
 - Script: `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`
 - Binaries: https://github.com/linkbreakers-com/linkbreakers-cli/releases
 
-Preferred usage:
-- `linkbreakers links list`
-- `linkbreakers links get <id>`
-- `linkbreakers links create --destination https://example.com`
-- `linkbreakers directories list`
-- `linkbreakers custom-domains list`
+Output is JSON. Errors print the API's code and message, which say what to do next.
 
-Authentication:
-- `LINKBREAKERS_TOKEN`
-- `linkbreakers auth set-token --token <token>`
-
-Fallback:
-- `linkbreakers raw METHOD PATH`
-
-Update:
-- Homebrew: `brew upgrade linkbreakers`
-- npm: `npm install -g linkbreakers-cli@latest`
-- Script or binary installs: `linkbreakers self-update`
-
-Primary human-readable docs:
+Docs:
 - `README.md`
 - `docs/commands/linkbreakers.md`
 - Agent skills: https://github.com/linkbreakers-com/agent-skills

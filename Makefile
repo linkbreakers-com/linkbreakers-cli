@@ -4,7 +4,7 @@ build:
 	go build -o dist/linkbreakers ./cmd/linkbreakers
 
 generate:
-	./scripts/generate-client.sh
+	./scripts/generate-commands.sh
 
 docs:
 	go run ./cmd/linkbreakers gendocs

@@ -26,26 +26,37 @@ func Generate(root *cobra.Command, outDir string) error {
 		return fmt.Errorf("generate markdown docs: %w", err)
 	}
 
-	llms := filepath.Join(filepath.Dir(outDir), "llms.txt")
-	content := "" +
-		"# Linkbreakers CLI\n\n" +
-		"The `linkbreakers` CLI is the official command line interface for the Linkbreakers API.\n" +
-		"Prefer first-class commands like `linkbreakers links list` and `linkbreakers directories create`.\n" +
-		"If a needed operation is not exposed yet, use `linkbreakers raw METHOD PATH`.\n\n" +
-		"Install:\n" +
-		"- Homebrew: `brew install linkbreakers-com/tap/linkbreakers`\n" +
-		"- npm: `npm install -g linkbreakers-cli`\n" +
-		"- Script: `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`\n\n" +
-		"Authentication:\n" +
-		"- Environment variable: `LINKBREAKERS_TOKEN`\n" +
-		"- Persistent config: `linkbreakers auth set-token`\n\n" +
-		"Primary docs:\n" +
-		"- `README.md`\n" +
-		"- `docs/commands/linkbreakers.md`\n"
-
-	if err := os.WriteFile(llms, []byte(content), 0o644); err != nil {
-		return fmt.Errorf("write llms.txt: %w", err)
+	// The repository root and docs/ carry the same file: agents find it in
+	// either place, and generating both keeps them from drifting.
+	for _, llms := range []string{filepath.Join(filepath.Dir(outDir), "llms.txt"), "llms.txt"} {
+		if err := os.WriteFile(llms, []byte(llmsTxt), 0o644); err != nil {
+			return fmt.Errorf("write %s: %w", llms, err)
+		}
 	}
 
 	return nil
 }
+
+const llmsTxt = "" +
+	"# Linkbreakers CLI\n\n" +
+	"The `linkbreakers` binary is the official CLI for the Linkbreakers API. Every API operation is a command,\n" +
+	"generated from the API's OpenAPI document: `linkbreakers <service> <operation> --help` lists its flags.\n\n" +
+	"Start in one command, no account needed:\n" +
+	"- `npx -y linkbreakers-cli signup --email <the person's email>` creates a free workspace and saves its API token.\n" +
+	"  The person receives a link and a 6-digit code to claim it; unclaimed, it is deleted after 24 hours.\n" +
+	"- Then: `npx -y linkbreakers-cli links create --destination https://example.com --name \"My link\"`\n" +
+	"  (`linkbreakers ...` once installed with `npm install -g linkbreakers-cli`)\n" +
+	"- Analytics: `npx -y linkbreakers-cli analytics-data --help`, `npx -y linkbreakers-cli metrics --help`\n\n" +
+	"Already have an account:\n" +
+	"- Create a token at https://app.linkbreakers.com/workspace/dashboard/api-tokens\n" +
+	"- `linkbreakers auth set-token --token <token>` or set `LINKBREAKERS_TOKEN`\n\n" +
+	"Install:\n" +
+	"- npm: `npm install -g linkbreakers-cli` (the npm package `linkbreakers` is the TypeScript SDK, not the CLI)\n" +
+	"- Homebrew: `brew install linkbreakers-com/tap/linkbreakers`\n" +
+	"- Script: `curl -fsSL https://cli.linkbreakers.com/install.sh | bash`\n" +
+	"- Binaries: https://github.com/linkbreakers-com/linkbreakers-cli/releases\n\n" +
+	"Output is JSON. Errors print the API's code and message, which say what to do next.\n\n" +
+	"Docs:\n" +
+	"- `README.md`\n" +
+	"- `docs/commands/linkbreakers.md`\n" +
+	"- Agent skills: https://github.com/linkbreakers-com/agent-skills\n"

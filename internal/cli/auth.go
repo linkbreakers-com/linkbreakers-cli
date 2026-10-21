@@ -45,6 +45,8 @@ func (a *app) newAuthSetTokenCommand() *cobra.Command {
 			}
 
 			fileCfg.Token = token
+			// A token set by hand replaces a workspace still waiting to be claimed.
+			fileCfg.Claim = nil
 			if baseURL != "" {
 				fileCfg.BaseURL = baseURL
 			}
@@ -79,11 +81,12 @@ func (a *app) newAuthStatusCommand() *cobra.Command {
 
 			path, _ := config.ConfigPath()
 			return output.PrintJSON(map[string]any{
-				"has_token":          cfg.Token != "",
-				"base_url":           cfg.BaseURL,
-				"output":             cfg.Output,
-				"config_path":        path,
-				"env_token_override": os.Getenv("LINKBREAKERS_TOKEN") != "",
+				"has_token":           cfg.Token != "",
+				"base_url":            cfg.BaseURL,
+				"unclaimed_workspace": fileCfgClaim(),
+				"output":              cfg.Output,
+				"config_path":         path,
+				"env_token_override":  os.Getenv("LINKBREAKERS_TOKEN") != "",
 			})
 		},
 	}
@@ -99,5 +102,18 @@ func (a *app) newAuthClearCommand() *cobra.Command {
 			}
 			return output.PrintJSON(map[string]any{"ok": true})
 		},
+	}
+}
+
+// fileCfgClaim describes the workspace waiting to be claimed, if any.
+func fileCfgClaim() any {
+	fileCfg, err := config.LoadFileConfig()
+	if err != nil || fileCfg.Claim == nil {
+		return nil
+	}
+	return map[string]any{
+		"workspace_id": fileCfg.Claim.WorkspaceID,
+		"email":        fileCfg.Claim.Email,
+		"deleted_at":   fileCfg.Claim.ExpiresAt,
 	}
 }

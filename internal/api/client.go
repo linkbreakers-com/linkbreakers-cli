@@ -3,77 +3,56 @@ package api
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 
-	"github.com/linkbreakers-com/linkbreakers-cli/internal/client/generated"
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/config"
 )
 
 type Client struct {
 	cfg        config.RuntimeConfig
-	generated  *linkbreakers.APIClient
 	httpClient *http.Client
+	userAgent  string
 }
 
-func NewClient(cfg config.RuntimeConfig) *Client {
+func NewClient(cfg config.RuntimeConfig, userAgent string) *Client {
 	if cfg.Timeout <= 0 {
 		cfg.Timeout = config.DefaultRuntimeConfig().Timeout
 	}
-	genCfg := linkbreakers.NewConfiguration()
-	genCfg.Servers = linkbreakers.ServerConfigurations{
-		{URL: cfg.BaseURL, Description: "resolved by linkbreakers CLI"},
+	return &Client{cfg: cfg, httpClient: &http.Client{Timeout: cfg.Timeout}, userAgent: userAgent}
+}
+
+// Do sends one API request and returns the status and body. A status of 400
+// or above is an error carrying the body, which holds the API's explanation.
+func (c *Client) Do(ctx context.Context, method, path string, query url.Values, headers map[string]string, body []byte) (int, []byte, error) {
+	if ctx == nil {
+		ctx = context.Background()
 	}
-	genCfg.HTTPClient = &http.Client{Timeout: cfg.Timeout}
-	genCfg.UserAgent = "linkbreakers-cli"
-
-	return &Client{
-		cfg:        cfg,
-		generated:  linkbreakers.NewAPIClient(genCfg),
-		httpClient: &http.Client{Timeout: cfg.Timeout},
-	}
-}
-
-func (c *Client) Generated() *linkbreakers.APIClient {
-	return c.generated
-}
-
-func (c *Client) Context() context.Context {
-	return context.WithValue(context.Background(), linkbreakers.ContextAccessToken, c.cfg.Token)
-}
-
-func (c *Client) RawRequest(ctx context.Context, method, path string, headers map[string]string, query map[string]string, body []byte) (int, []byte, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
-
 	base, err := url.Parse(c.cfg.BaseURL)
 	if err != nil {
 		return 0, nil, fmt.Errorf("parse base url: %w", err)
 	}
-
-	rel, err := url.Parse(path)
-	if err != nil {
-		return 0, nil, fmt.Errorf("parse path: %w", err)
+	reqURL := base.ResolveReference(&url.URL{Path: path})
+	if len(query) > 0 {
+		reqURL.RawQuery = query.Encode()
 	}
 
-	reqURL := base.ResolveReference(rel)
-	values := reqURL.Query()
-	for k, v := range query {
-		values.Set(k, v)
+	var reader io.Reader
+	if len(body) > 0 {
+		reader = bytes.NewReader(body)
 	}
-	reqURL.RawQuery = values.Encode()
-
-	req, err := http.NewRequestWithContext(ctx, method, reqURL.String(), bytes.NewReader(body))
+	req, err := http.NewRequestWithContext(ctx, method, reqURL.String(), reader)
 	if err != nil {
 		return 0, nil, fmt.Errorf("build request: %w", err)
 	}
-
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", c.userAgent)
 	if c.cfg.Token != "" {
 		req.Header.Set("Authorization", "Bearer "+c.cfg.Token)
 	}
@@ -94,23 +73,8 @@ func (c *Client) RawRequest(ctx context.Context, method, path string, headers ma
 	if err != nil {
 		return resp.StatusCode, nil, fmt.Errorf("read response body: %w", err)
 	}
-
 	if resp.StatusCode >= 400 {
 		return resp.StatusCode, respBody, fmt.Errorf("api returned %s", resp.Status)
 	}
-
 	return resp.StatusCode, respBody, nil
-}
-
-func NormalizeJSON(body []byte) ([]byte, error) {
-	if len(bytes.TrimSpace(body)) == 0 {
-		return []byte("{}"), nil
-	}
-
-	var v any
-	if err := json.Unmarshal(body, &v); err != nil {
-		return nil, err
-	}
-
-	return json.Marshal(v)
 }

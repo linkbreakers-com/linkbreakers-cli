@@ -11,28 +11,46 @@ import (
 )
 
 const (
-	defaultBaseURL = "https://api.linkbreakers.com"
-	defaultOutput  = "json"
+	defaultBaseURL      = "https://api.linkbreakers.com"
+	defaultAgentBaseURL = "https://mcp.linkbreakers.com"
+	defaultOutput       = "json"
 )
 
 type FileConfig struct {
 	Token   string `json:"token,omitempty"`
 	BaseURL string `json:"base_url,omitempty"`
 	Output  string `json:"output,omitempty"`
+	// AgentBaseURL is where `linkbreakers signup` registers a workspace.
+	AgentBaseURL string `json:"agent_base_url,omitempty"`
+	// Claim is set while a workspace created by `linkbreakers signup` waits
+	// for its person to claim it, and cleared once they have.
+	Claim *Claim `json:"claim,omitempty"`
+}
+
+// Claim is what the CLI keeps about a workspace it signed up for until a
+// person claims it.
+type Claim struct {
+	WorkspaceID   string    `json:"workspace_id"`
+	Email         string    `json:"email"`
+	ClaimToken    string    `json:"claim_token"`
+	ExpiresAt     time.Time `json:"expires_at"`
+	LastCheckedAt time.Time `json:"last_checked_at,omitempty"`
 }
 
 type RuntimeConfig struct {
-	Token   string
-	BaseURL string
-	Output  string
-	Timeout time.Duration
+	Token        string
+	BaseURL      string
+	AgentBaseURL string
+	Output       string
+	Timeout      time.Duration
 }
 
 func DefaultRuntimeConfig() RuntimeConfig {
 	return RuntimeConfig{
-		BaseURL: defaultBaseURL,
-		Output:  defaultOutput,
-		Timeout: 30 * time.Second,
+		BaseURL:      defaultBaseURL,
+		AgentBaseURL: defaultAgentBaseURL,
+		Output:       defaultOutput,
+		Timeout:      30 * time.Second,
 	}
 }
 
@@ -119,6 +137,12 @@ func Resolve(tokenFlag, baseURLFlag, outputFlag string) (RuntimeConfig, error) {
 	if fileCfg.Output != "" {
 		cfg.Output = strings.TrimSpace(fileCfg.Output)
 	}
+	if fileCfg.AgentBaseURL != "" {
+		cfg.AgentBaseURL = strings.TrimRight(strings.TrimSpace(fileCfg.AgentBaseURL), "/")
+	}
+	if env := strings.TrimSpace(os.Getenv("LINKBREAKERS_AGENT_BASE_URL")); env != "" {
+		cfg.AgentBaseURL = strings.TrimRight(env, "/")
+	}
 
 	if env := strings.TrimSpace(os.Getenv("LINKBREAKERS_TOKEN")); env != "" {
 		cfg.Token = env
@@ -141,10 +165,8 @@ func Resolve(tokenFlag, baseURLFlag, outputFlag string) (RuntimeConfig, error) {
 	}
 
 	cfg.Output = strings.ToLower(cfg.Output)
-	switch cfg.Output {
-	case "json", "table":
-	default:
-		return RuntimeConfig{}, fmt.Errorf("unsupported output %q, expected json or table", cfg.Output)
+	if cfg.Output != "json" {
+		return RuntimeConfig{}, fmt.Errorf("unsupported output %q, expected json", cfg.Output)
 	}
 
 	if cfg.BaseURL == "" {
@@ -154,7 +176,9 @@ func Resolve(tokenFlag, baseURLFlag, outputFlag string) (RuntimeConfig, error) {
 	return cfg, nil
 }
 
-var ErrMissingToken = errors.New("no API token configured: run `linkbreakers auth set-token --token <api-token>`, set LINKBREAKERS_TOKEN, or pass --token")
+var ErrMissingToken = errors.New("no API token configured.\n" +
+	"  Already have a Linkbreakers account? Create a token at https://app.linkbreakers.com/workspace/dashboard/api-tokens, then run `linkbreakers auth set-token --token <api-token>` (or set LINKBREAKERS_TOKEN).\n" +
+	"  New to Linkbreakers? Run `linkbreakers signup --email <your email>` to get a workspace and a token right away.")
 
 func (c RuntimeConfig) RequireToken() error {
 	if strings.TrimSpace(c.Token) == "" {

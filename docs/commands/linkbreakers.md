@@ -8,15 +8,17 @@ Official CLI for the Linkbreakers API
 
 ### Synopsis
 
-The official Linkbreakers CLI for authentication, workspace resources, raw API access, shell completion, and generated command documentation.
+The official Linkbreakers CLI. Every API operation is a command, generated from the API's OpenAPI document, so the CLI always matches the API.
+
+No account yet? `linkbreakers signup --email <email>` creates a workspace and saves its token in one step.
 
 ### Examples
 
 ```
-  linkbreakers auth set-token --token <api-token>
-  linkbreakers links list --page-size 20
+  linkbreakers signup --email you@example.com
   linkbreakers links create --destination https://example.com --name "My link"
-  linkbreakers raw GET /v1/links?pageSize=5
+  linkbreakers links list --page-size 20
+  linkbreakers analytics-data get-top-links
 
 ```
 
@@ -25,19 +27,47 @@ The official Linkbreakers CLI for authentication, workspace resources, raw API a
 ```
       --base-url string   API base URL. Overrides config and LINKBREAKERS_BASE_URL.
   -h, --help              help for linkbreakers
-  -o, --output string     Output format: json or table.
+  -o, --output string     Output format: json.
       --token string      API token. Overrides config and LINKBREAKERS_TOKEN.
 ```
 
 ### SEE ALSO
 
+* [linkbreakers agent-identity](linkbreakers_agent-identity.md)	 - Claiming a workspace an AI agent registered for itself
+* [linkbreakers allowances](linkbreakers_allowances.md)	 - What the workspace has used of each limit its plan sets, read from the same counters that enforce them
+* [linkbreakers analytics-dashboard](linkbreakers_analytics-dashboard.md)	 - Endpoints for managing analytics dashboards with flexible, config-driven widgets
+* [linkbreakers analytics-data](linkbreakers_analytics-data.md)	 - Endpoints for retrieving aggregated analytics data for dashboard widgets including geographic breakdown, device distribution, and visitor trends
+* [linkbreakers assistant](linkbreakers_assistant.md)	 - Context-aware assistant that delegates to specialized sub-assistants based on the resource being edited
 * [linkbreakers auth](linkbreakers_auth.md)	 - Manage CLI authentication
+* [linkbreakers claim](linkbreakers_claim.md)	 - Hand the workspace created by `linkbreakers signup` to a person
 * [linkbreakers completion](linkbreakers_completion.md)	 - Generate shell completion scripts
-* [linkbreakers custom-domains](linkbreakers_custom-domains.md)	 - Manage custom domains
-* [linkbreakers directories](linkbreakers_directories.md)	 - Manage directories
-* [linkbreakers links](linkbreakers_links.md)	 - Manage links
-* [linkbreakers raw](linkbreakers_raw.md)	 - Call any Linkbreakers API endpoint directly
+* [linkbreakers custom-domains](linkbreakers_custom-domains.md)	 - Endpoints for managing custom domains in Linkbreakers
+* [linkbreakers directories](linkbreakers_directories.md)	 - Endpoints for managing directories in Linkbreakers
+* [linkbreakers events](linkbreakers_events.md)	 - Endpoints for managing events in Linkbreakers
+* [linkbreakers google-forms-integrations](linkbreakers_google-forms-integrations.md)	 - Connect your Google account to automatically sync form responses from links that redirect to Google Forms
+* [linkbreakers integrations](linkbreakers_integrations.md)	 - integrations API operations
+* [linkbreakers jobs](linkbreakers_jobs.md)	 - Long-running operations
+* [linkbreakers links](linkbreakers_links.md)	 - Endpoints for managing shortened links in Linkbreakers
+* [linkbreakers media](linkbreakers_media.md)	 - Endpoints for managing media files in Linkbreakers
+* [linkbreakers members](linkbreakers_members.md)	 - Endpoints for managing members in Linkbreakers
+* [linkbreakers metrics](linkbreakers_metrics.md)	 - Endpoints for analyzing workspace activity within Linkbreakers, covering rolling event totals, audience reach, and calendar heatmaps
+* [linkbreakers page-theme-templates](linkbreakers_page-theme-templates.md)	 - Endpoints for managing Page Theme Templates in Linkbreakers
+* [linkbreakers page-themes](linkbreakers_page-themes.md)	 - Endpoints for managing page visual themes
+* [linkbreakers pricing](linkbreakers_pricing.md)	 - Public pricing catalog: the plans, what each costs and what each allows
+* [linkbreakers qrcode-design](linkbreakers_qrcode-design.md)	 - Endpoints for managing QR Code Designs in Linkbreakers
+* [linkbreakers qrcode-templates](linkbreakers_qrcode-templates.md)	 - Endpoints for managing QR Code Templates in Linkbreakers
+* [linkbreakers sandboxes](linkbreakers_sandboxes.md)	 - Sandbox workspaces for testing an integration without touching live data
 * [linkbreakers self-update](linkbreakers_self-update.md)	 - Download and install the latest CLI release
+* [linkbreakers settings](linkbreakers_settings.md)	 - Endpoints for managing link-level data collection settings in Linkbreakers
+* [linkbreakers signup](linkbreakers_signup.md)	 - Create a Linkbreakers workspace and save its API token, in one step
+* [linkbreakers slack-integrations](linkbreakers_slack-integrations.md)	 - Endpoints for managing the Slack integration
+* [linkbreakers tags](linkbreakers_tags.md)	 - Endpoints for managing tags in Linkbreakers
+* [linkbreakers time-series](linkbreakers_time-series.md)	 - time series API operations
 * [linkbreakers version](linkbreakers_version.md)	 - Show CLI build version
+* [linkbreakers visitors](linkbreakers_visitors.md)	 - Identify and manage visitors
+* [linkbreakers webhooks](linkbreakers_webhooks.md)	 - Endpoints for managing webhooks in Linkbreakers
+* [linkbreakers workflow-steps](linkbreakers_workflow-steps.md)	 - Endpoints for managing workflow steps in Linkbreakers
+* [linkbreakers workspace-tokens](linkbreakers_workspace-tokens.md)	 - Endpoints for managing workspace tokens in Linkbreakers
+* [linkbreakers workspaces](linkbreakers_workspaces.md)	 - Endpoints for managing workspaces in Linkbreakers
 
-###### Auto generated by spf13/cobra on 20-Oct-2026
+###### Auto generated by spf13/cobra on 21-Oct-2026

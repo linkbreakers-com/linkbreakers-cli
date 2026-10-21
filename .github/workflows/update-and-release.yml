@@ -41,9 +41,6 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install OpenAPI Generator
-        run: npm install -g @openapitools/openapi-generator-cli
-
       - name: Fetch current version from swagger
         id: fetch-version
         run: |
@@ -94,12 +91,12 @@ jobs:
             echo "Version changed: $CURRENT_VERSION -> $SWAGGER_VERSION"
           fi
 
-      - name: Generate client and docs
+      - name: Generate commands and docs
         id: generate
         if: steps.compare.outputs.needs_update == 'true' && steps.compare.outputs.force_release != 'true'
         run: |
-          chmod +x ./scripts/generate-client.sh
-          ./scripts/generate-client.sh
+          chmod +x ./scripts/generate-commands.sh
+          ./scripts/generate-commands.sh
           go run ./cmd/linkbreakers gendocs
 
       - name: Build
@@ -228,7 +225,7 @@ jobs:
           PUSH: ${{ steps.push.outcome }}
         run: |
           FAILED=""
-          [ "$GENERATE" = "failure" ] && FAILED="$FAILED Generate client and docs,"
+          [ "$GENERATE" = "failure" ] && FAILED="$FAILED Generate commands and docs,"
           [ "$BUILD" = "failure" ] && FAILED="$FAILED Build,"
           [ "$TAG" = "failure" ] && FAILED="$FAILED Create and push tag,"
           [ "$GORELEASER" = "failure" ] && FAILED="$FAILED Run GoReleaser,"
