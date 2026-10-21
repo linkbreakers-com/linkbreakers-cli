@@ -8,7 +8,7 @@ Claim an agent's workspace
 
 ### Synopsis
 
-Check the code the agent handed over, attach the claim email with a password or a Google or Microsoft sign-in to the agent's workspace, and sign in. The email must not already have a Linkbreakers account. Afterwards the agent's token keeps working in the claimed workspace, and the agent can fetch a token with wider scopes from the claim grant.
+Check the code from the claim email, attach the claim email with a password or a Google or Microsoft sign-in to the agent's workspace, and sign in. A person who already has an account signs in with its password and the workspace joins that account. The link and code reach the person only by email, so claiming also verifies the address. Afterwards the agent's token keeps working in the claimed workspace, and the agent can fetch a token with wider scopes from the claim grant.
 
 API: POST /v1/agent-identity/claim/complete
 
@@ -25,7 +25,7 @@ linkbreakers agent-identity claim-agent-workspace [flags]
   -h, --help                         help for claim-agent-workspace
       --idempotency-key string       Makes retrying this request safe. See components.parameters.IdempotencyKey.
       --password string              A password for the claim email. Set this or firebase_token.
-      --user-code string             The 6-digit code the agent gave you
+      --user-code string             The 6-digit code from the claim email
 ```
 
 ### Options inherited from parent commands
