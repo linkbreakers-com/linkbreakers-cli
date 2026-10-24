@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/api"
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/config"
@@ -88,11 +89,17 @@ func (a *app) client(auth bool) (*api.Client, error) {
 			return nil, err
 		}
 	}
-	return api.NewClient(cfg, userAgent()), nil
+	return api.NewClient(cfg, userAgent(), clientHeader()), nil
 }
 
 func userAgent() string {
 	return "linkbreakers-cli/" + Version
+}
+
+// clientHeader is the Linkbreakers-Client value: the CLI, its version, and
+// the platform it runs on. Nothing about the user or the machine.
+func clientHeader() string {
+	return "cli/" + Version + " (" + runtime.GOOS + " " + runtime.GOARCH + ")"
 }
 
 func readAll(r io.Reader) ([]byte, error) {

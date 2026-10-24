@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/linkbreakers-com/linkbreakers-cli/internal/api"
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/config"
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/output"
 	"github.com/spf13/cobra"
@@ -279,6 +280,7 @@ func postAgent(ctx context.Context, endpoint string, body any, target any) error
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", userAgent())
+	req.Header.Set(api.ClientHeader, clientHeader())
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
