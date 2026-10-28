@@ -21,9 +21,11 @@ linkbreakers visitors list-attribute-keys [flags]
 ### Options
 
 ```
-      --directory-id string   Optional directory filter (UUID): the links of this directory and of every directory below it. Send link_id or directory_id, not both; when both are omitted aggregates workspace-wide
-  -h, --help                  help for list-attribute-keys
-      --link-id string        Optional link identifier (UUID). When set, returns keys observed on visitors who interacted with this link.
+      --countries stringArray   Optional country filter: visits from any of these countries (ISO 3166-1 alpha-2 codes, e.g. "FR"). Combines with the link, directory or tag filter Repeat the flag for several values.
+      --directory-id string     Optional directory filter (UUID): the links of this directory and of every directory below it. Send link_id or directory_id, not both; when both are omitted aggregates workspace-wide
+  -h, --help                    help for list-attribute-keys
+      --link-id string          Optional link identifier (UUID). When set, returns keys observed on visitors who interacted with this link.
+      --tag-id string           Optional tag filter (UUID): every link carrying this tag. Send at most one of link_id, directory_id and tag_id
 ```
 
 ### Options inherited from parent commands

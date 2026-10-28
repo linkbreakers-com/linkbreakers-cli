@@ -21,7 +21,9 @@ linkbreakers events list-events [flags]
 ### Options
 
 ```
+      --countries stringArray    Optional country filter: visits from any of these countries (ISO 3166-1 alpha-2 codes, e.g. "FR"). Combines with the link, directory or tag filter Repeat the flag for several values.
       --cursor string            Opaque cursor from the previous page's nextPageToken. Same as pageToken; when both are sent, pageToken wins.
+      --directory-id string      Optional directory filter (UUID): the links of this directory and of every directory below it. Send link_id or directory_id, not both
       --end-date string          Inclusive end timestamp for the query window
   -h, --help                     help for list-events
       --include stringArray      Optional list of relationships to include: visitor, device, link, workspace, journey Repeat the flag for several values.
@@ -30,6 +32,7 @@ linkbreakers events list-events [flags]
       --page-token string        Cursor token to retrieve the next page of results
       --response-format string   Desired response format (defaults to RESPONSE_FORMAT_JSON; use RESPONSE_FORMAT_CSV for exports)
       --start-date string        Inclusive start timestamp for the query window (workspace timezone aware). Note: For free plan workspaces, this will be automatically adjusted to not go back more than 2 weeks. For light plan workspaces, this will be automatically adjusted to not go back more than 3 months.
+      --tag-id string            Optional tag filter (UUID): every link carrying this tag. Send at most one of link_id, directory_id and tag_id
       --visitor-id string        Filter events to a specific visitor (optional, UUID)
 ```
 

@@ -19,6 +19,7 @@ linkbreakers time-series get-events-time-series [flags]
 ### Options
 
 ```
+      --countries stringArray     Optional country filter: visits from any of these countries (ISO 3166-1 alpha-2 codes, e.g. "FR"). Combines with the link, directory or tag filter Repeat the flag for several values.
       --data string               Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
       --directory-id string       Optional directory filter (UUID): the links of this directory and of every directory below it. Send link_id or directory_id, not both; when both are omitted aggregates workspace-wide
       --end-date string           Inclusive end timestamp for the time series
@@ -27,6 +28,7 @@ linkbreakers time-series get-events-time-series [flags]
       --interval-in-minutes int   Size of each bucket in minutes (supports 5/15/60/etc.)
       --link-id string            Optional filtering by link ID
       --start-date string         Inclusive start timestamp for the time series
+      --tag-id string             Optional tag filter (UUID): every link carrying this tag. Send at most one of link_id, directory_id and tag_id
 ```
 
 ### Options inherited from parent commands

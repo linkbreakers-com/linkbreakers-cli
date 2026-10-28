@@ -21,6 +21,7 @@ linkbreakers analytics-data get-attribute-metric [flags]
 ### Options
 
 ```
+      --countries stringArray    Optional country filter: visits from any of these countries (ISO 3166-1 alpha-2 codes, e.g. "FR"). Combines with the link, directory or tag filter Repeat the flag for several values.
       --data string              Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
       --directory-id string      Optional directory filter (UUID): the links of this directory and of every directory below it. Send link_id or directory_id, not both; when both are omitted aggregates workspace-wide
       --end-date string          Inclusive end timestamp
@@ -29,6 +30,7 @@ linkbreakers analytics-data get-attribute-metric [flags]
       --key string               Attribute key, for example "rating"
       --link-id string           Optional link filter (UUID). Attributes belong to the visitor rather than to a link, so this filters the audience: visitors who interacted with the link, whatever set the attribute.
       --start-date string        Inclusive start timestamp
+      --tag-id string            Optional tag filter (UUID): every link carrying this tag. Send at most one of link_id, directory_id and tag_id
 ```
 
 ### Options inherited from parent commands
