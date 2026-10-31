@@ -12,17 +12,22 @@ import (
 	"github.com/linkbreakers-com/linkbreakers-cli/internal/config"
 )
 
+// ClientHeader names the client to the API, alongside the User-Agent:
+// "cli/1.4.0 (darwin arm64)".
+const ClientHeader = "Linkbreakers-Client"
+
 type Client struct {
-	cfg        config.RuntimeConfig
-	httpClient *http.Client
-	userAgent  string
+	cfg          config.RuntimeConfig
+	httpClient   *http.Client
+	userAgent    string
+	clientHeader string
 }
 
-func NewClient(cfg config.RuntimeConfig, userAgent string) *Client {
+func NewClient(cfg config.RuntimeConfig, userAgent, clientHeader string) *Client {
 	if cfg.Timeout <= 0 {
 		cfg.Timeout = config.DefaultRuntimeConfig().Timeout
 	}
-	return &Client{cfg: cfg, httpClient: &http.Client{Timeout: cfg.Timeout}, userAgent: userAgent}
+	return &Client{cfg: cfg, httpClient: &http.Client{Timeout: cfg.Timeout}, userAgent: userAgent, clientHeader: clientHeader}
 }
 
 // Do sends one API request and returns the status and body. A status of 400
@@ -53,6 +58,9 @@ func (c *Client) Do(ctx context.Context, method, path string, query url.Values, 
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", c.userAgent)
+	if c.clientHeader != "" {
+		req.Header.Set(ClientHeader, c.clientHeader)
+	}
 	if c.cfg.Token != "" {
 		req.Header.Set("Authorization", "Bearer "+c.cfg.Token)
 	}
