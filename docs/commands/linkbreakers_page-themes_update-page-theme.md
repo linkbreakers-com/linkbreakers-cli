@@ -21,25 +21,26 @@ linkbreakers page-themes update-page-theme [flags]
 ### Options
 
 ```
-      --badge string               Badge media selection to update: any image of at most 3 MB from the media library JSON value.
-      --badge-enabled              --- Badge Section --- Whether badge is enabled
-      --badge-icon-color string    Badge icon background color to update JSON value.
-      --badge-shape string         Badge shape to update One of: PAGE_THEME_BADGE_SHAPE_UNSPECIFIED, PAGE_THEME_BADGE_SHAPE_CIRCLE, PAGE_THEME_BADGE_SHAPE_SQUARE, PAGE_THEME_BADGE_SHAPE_ROUNDED.
-      --body-font string           Body font configuration to update JSON value.
-      --canvas-color string        --- Background Section --- Canvas color configuration to update JSON value.
-      --canvas-cover string        Cover media selection to update: any image of at most 3 MB from the media library JSON value.
-      --canvas-cover-mode string   Cover display mode to update One of: PAGE_THEME_BACKGROUND_COVER_MODE_UNSPECIFIED, PAGE_THEME_BACKGROUND_COVER_MODE_FULL, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_TOP, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_BOTTOM.
-      --container-config string    Container styling configuration to update JSON value.
-      --container-enabled          Whether container is enabled (false clears container_config)
-      --data string                Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
-      --element-color string       Interactive element background color configuration to update JSON value.
-      --element-font string        Interactive element text font configuration to update JSON value.
-      --footer-logo string         Footer logo media selection: id of any image of at most 3 MB from the workspace's media library, or delete to remove the image. JSON value.
-      --footer-logo-enabled        Whether to show the footer logo, a small company or brand logo centered at the bottom of every page using this theme (false hides it but keeps the image).
-  -h, --help                       help for update-page-theme
-      --id string                  Page theme ID to update Required.
-      --idempotency-key string     Makes retrying this request safe. See components.parameters.IdempotencyKey.
-      --title-font string          --- Typography Section --- Title font configuration to update JSON value.
+      --badge string                Badge media selection to update: any image of at most 3 MB from the media library JSON value.
+      --badge-enabled               --- Badge Section --- Whether badge is enabled
+      --badge-icon-color string     Badge icon background color to update JSON value.
+      --badge-shape string          Badge shape to update One of: PAGE_THEME_BADGE_SHAPE_UNSPECIFIED, PAGE_THEME_BADGE_SHAPE_CIRCLE, PAGE_THEME_BADGE_SHAPE_SQUARE, PAGE_THEME_BADGE_SHAPE_ROUNDED.
+      --body-font string            Body font configuration to update JSON value.
+      --canvas-color string         --- Background Section --- Canvas color configuration to update JSON value.
+      --canvas-cover string         Cover media selection to update: any image of at most 3 MB from the media library JSON value.
+      --canvas-cover-mode string    Cover display mode to update One of: PAGE_THEME_BACKGROUND_COVER_MODE_UNSPECIFIED, PAGE_THEME_BACKGROUND_COVER_MODE_FULL, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_TOP, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_BOTTOM.
+      --container-config string     Container styling configuration to update JSON value.
+      --container-enabled           Whether container is enabled (false clears container_config)
+      --data string                 Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
+      --element-color string        Interactive element background color configuration to update JSON value.
+      --element-font string         Interactive element text font configuration to update JSON value.
+      --footer-logo string          Footer logo media selection: id of any image of at most 3 MB from the workspace's media library, or delete to remove the image. JSON value.
+      --footer-logo-enabled         Whether to show the footer logo, a small company or brand logo centered at the bottom of every page using this theme (false hides it but keeps the image).
+  -h, --help                        help for update-page-theme
+      --id string                   Page theme ID to update Required.
+      --idempotency-key string      Makes retrying this request safe. See components.parameters.IdempotencyKey.
+      --title-font string           --- Typography Section --- Title font configuration to update JSON value.
+      --visitor-experience string   How visitor pages pace their content: CLASSIC shows a whole form at once, FOCUSED shows one question per screen. One of: PAGE_THEME_VISITOR_EXPERIENCE_UNSPECIFIED, PAGE_THEME_VISITOR_EXPERIENCE_CLASSIC, PAGE_THEME_VISITOR_EXPERIENCE_FOCUSED.
 ```
 
 ### Options inherited from parent commands
@@ -54,4 +55,4 @@ linkbreakers page-themes update-page-theme [flags]
 
 * [linkbreakers page-themes](linkbreakers_page-themes.md)	 - Endpoints for managing page visual themes
 
-###### Auto generated by spf13/cobra on 30-Oct-2026
+###### Auto generated by spf13/cobra on 1-Nov-2026
