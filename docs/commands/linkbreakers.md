@@ -34,6 +34,7 @@ No account yet? `linkbreakers signup --email <email>` creates a workspace and sa
 ### SEE ALSO
 
 * [linkbreakers agent-identity](linkbreakers_agent-identity.md)	 - Claiming a workspace an AI agent registered for itself
+* [linkbreakers agents](linkbreakers_agents.md)	 - Agents are chat personas a workspace builds: a role, a tone, guardrails and knowledge documents
 * [linkbreakers allowances](linkbreakers_allowances.md)	 - What the workspace has used of each limit its plan sets, read from the same counters that enforce them
 * [linkbreakers analytics-dashboard](linkbreakers_analytics-dashboard.md)	 - Endpoints for managing analytics dashboards with flexible, config-driven widgets
 * [linkbreakers analytics-data](linkbreakers_analytics-data.md)	 - Endpoints for retrieving aggregated analytics data for dashboard widgets including geographic breakdown, device distribution, and visitor trends
