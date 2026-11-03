@@ -8,7 +8,7 @@ Create a webhook
 
 ### Synopsis
 
-Create a new webhook endpoint to receive event notifications when workflow steps complete.
+Create a new webhook endpoint that receives one delivery per workflow step a visitor completes: visit.entered, visit.interacted, visit.routed or visit.exited.
 
 Requires the `webhooks:write` scope.
 
@@ -28,7 +28,7 @@ linkbreakers webhooks create [flags]
       --link-id string           Filter webhook notifications by a specific link ID. Only events from this link will trigger webhook notifications. If empty, all links in the workspace will trigger notifications.
       --name string              The name of the webhook Required.
       --source string            Source of the webhook - indicates creation method (optional, defaults to LINKBREAKERS for manual dashboard creation) One of: WEBHOOK_SOURCE_UNSPECIFIED, WEBHOOK_SOURCE_LINKBREAKERS, WEBHOOK_SOURCE_MAKE, WEBHOOK_SOURCE_ZAPIER.
-      --triggers stringArray     Filter webhook notifications by workflow step kinds. Only workflow steps matching these kinds will trigger webhook notifications. If empty, all workflow step kinds will trigger notifications. One of: KIND_UNSPECIFIED, KIND_ENTRY, KIND_EXIT, KIND_INTERACTION, KIND_CONDITION. Repeat the flag for several values.
+      --triggers stringArray     Filter webhook notifications by workflow step kinds. Only workflow steps matching these kinds will trigger webhook notifications: KIND_ENTRY sends visit.entered, KIND_INTERACTION visit.interacted, KIND_CONDITION visit.routed and KIND_EXIT visit.exited. If empty, all workflow step kinds will trigger notifications. One of: KIND_UNSPECIFIED, KIND_ENTRY, KIND_EXIT, KIND_INTERACTION, KIND_CONDITION. Repeat the flag for several values.
 ```
 
 ### Options inherited from parent commands
