@@ -31,6 +31,7 @@ Endpoints for retrieving aggregated analytics data for dashboard widgets includi
 * [linkbreakers analytics-data get-geo-breakdown](linkbreakers_analytics-data_get-geo-breakdown.md)	 - Get geographic breakdown
 * [linkbreakers analytics-data get-grouped-time-series](linkbreakers_analytics-data_get-grouped-time-series.md)	 - Get grouped time series
 * [linkbreakers analytics-data get-hour-of-day-distribution](linkbreakers_analytics-data_get-hour-of-day-distribution.md)	 - Get hour of day distribution
+* [linkbreakers analytics-data get-shared-locations](linkbreakers_analytics-data_get-shared-locations.md)	 - List shared locations
 * [linkbreakers analytics-data get-step-funnel](linkbreakers_analytics-data_get-step-funnel.md)	 - Get workflow step funnel
 * [linkbreakers analytics-data get-top-links](linkbreakers_analytics-data_get-top-links.md)	 - Get top performing links
 * [linkbreakers analytics-data get-visitor-trends](linkbreakers_analytics-data_get-visitor-trends.md)	 - Get visitor trends

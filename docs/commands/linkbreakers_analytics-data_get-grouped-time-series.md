@@ -25,7 +25,7 @@ linkbreakers analytics-data get-grouped-time-series [flags]
       --data string               Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
       --directory-id string       Optional directory filter (UUID): the links of this directory and of every directory below it. Send link_id or directory_id, not both; when both are omitted aggregates workspace-wide
       --end-date string           
-      --group-by string           Dimension to group by One of: GROUP_BY_DIMENSION_UNSPECIFIED, GROUP_BY_DIMENSION_COUNTRY, GROUP_BY_DIMENSION_CITY, GROUP_BY_DIMENSION_DEVICE_TYPE, GROUP_BY_DIMENSION_VISIT_TYPE, GROUP_BY_DIMENSION_BROWSER, GROUP_BY_DIMENSION_PLATFORM.
+      --group-by string           Dimension to group by One of: GROUP_BY_DIMENSION_UNSPECIFIED, GROUP_BY_DIMENSION_COUNTRY, GROUP_BY_DIMENSION_CITY, GROUP_BY_DIMENSION_DEVICE_TYPE, GROUP_BY_DIMENSION_VISIT_TYPE, GROUP_BY_DIMENSION_BROWSER, GROUP_BY_DIMENSION_PLATFORM, GROUP_BY_DIMENSION_IN_APP_BROWSER, GROUP_BY_DIMENSION_IN_APP_BROWSER_VERSION.
   -h, --help                      help for get-grouped-time-series
       --idempotency-key string    Makes retrying this request safe. See components.parameters.IdempotencyKey.
       --interval-in-minutes int   

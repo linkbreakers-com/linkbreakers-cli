@@ -8,7 +8,7 @@ Get dimension breakdown
 
 ### Synopsis
 
-Returns a ranked breakdown of events by any dimension (browser, platform, device type, country, city, visit type).
+Returns a ranked breakdown of events by any dimension (browser, platform, device type, country, city, visit type, in-app browser, in-app browser version).
 
 Requires the `analytics:read` scope.
 
@@ -23,7 +23,7 @@ linkbreakers analytics-data get-breakdown [flags]
 ```
       --countries stringArray    Optional country filter: visits from any of these countries (ISO 3166-1 alpha-2 codes, e.g. "FR"). Combines with the link, directory or tag filter Repeat the flag for several values.
       --data string              Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
-      --dimension string         Dimension to break down by: "browser", "platform", "device_type", "country", "city", "visit_type"
+      --dimension string         Dimension to break down by: "browser", "platform", "device_type", "country", "city", "visit_type", "in_app_browser" (the app whose in-app browser opened the link; code holds the InAppBrowser value without its prefix, e.g. "INSTAGRAM", "NONE" for a regular browser) or "in_app_browser_version" (app and major version, e.g. "Instagram 447")
       --directory-id string      Optional directory filter (UUID): the links of this directory and of every directory below it. Send link_id or directory_id, not both; when both are omitted aggregates workspace-wide
       --end-date string          Inclusive end timestamp
   -h, --help                     help for get-breakdown
