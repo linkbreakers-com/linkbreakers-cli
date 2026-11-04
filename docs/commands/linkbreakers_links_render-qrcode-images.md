@@ -22,7 +22,7 @@ linkbreakers links render-qrcode-images [flags]
 
 ```
       --data string              Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
-      --format string            PNG (default) or SVG. One of: QRCODE_RENDER_FORMAT_UNSPECIFIED, QRCODE_RENDER_FORMAT_PNG, QRCODE_RENDER_FORMAT_SVG.
+      --format string            PNG (default), JPEG, WebP or SVG. One of: QRCODE_RENDER_FORMAT_UNSPECIFIED, QRCODE_RENDER_FORMAT_PNG, QRCODE_RENDER_FORMAT_SVG, QRCODE_RENDER_FORMAT_JPEG, QRCODE_RENDER_FORMAT_WEBP.
   -h, --help                     help for render-qrcode-images
       --id string                The link's ID (UUID). Required.
       --idempotency-key string   Makes retrying this request safe. See components.parameters.IdempotencyKey.
