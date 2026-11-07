@@ -45,6 +45,7 @@ No account yet? `linkbreakers signup --email <email>` creates a workspace and sa
 * [linkbreakers custom-domains](linkbreakers_custom-domains.md)	 - Endpoints for managing custom domains in Linkbreakers
 * [linkbreakers directories](linkbreakers_directories.md)	 - Endpoints for managing directories in Linkbreakers
 * [linkbreakers events](linkbreakers_events.md)	 - Endpoints for managing events in Linkbreakers
+* [linkbreakers form-integrations](linkbreakers_form-integrations.md)	 - Connect Tally, Typeform, Jotform or Paperform: each response lands on the visitor whose visit opened the form, through a hidden lbid field and a webhook
 * [linkbreakers google-analytics-integrations](linkbreakers_google-analytics-integrations.md)	 - Send every QR code scan and link visit, form submission and piece of visitor data captured to Google Analytics 4, server side through the Measurement Protocol, with no delay for the visitor
 * [linkbreakers google-forms-integrations](linkbreakers_google-forms-integrations.md)	 - Connect your Google account to automatically sync form responses from links that redirect to Google Forms
 * [linkbreakers integrations](linkbreakers_integrations.md)	 - integrations API operations

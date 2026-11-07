@@ -29,7 +29,7 @@ linkbreakers webhooks update [flags]
       --idempotency-key string   Makes retrying this request safe. See components.parameters.IdempotencyKey.
       --link-id string           Filter webhook notifications by a specific link ID. Only events from this link will trigger webhook notifications. If empty, all links in the workspace will trigger notifications.
       --name string              The name of the webhook
-      --source string            Source of the webhook - indicates whether created manually or via integration One of: WEBHOOK_SOURCE_UNSPECIFIED, WEBHOOK_SOURCE_LINKBREAKERS, WEBHOOK_SOURCE_MAKE, WEBHOOK_SOURCE_ZAPIER.
+      --source string            Source of the webhook - indicates whether created manually or via integration One of: WEBHOOK_SOURCE_UNSPECIFIED, WEBHOOK_SOURCE_LINKBREAKERS, WEBHOOK_SOURCE_MAKE, WEBHOOK_SOURCE_ZAPIER, WEBHOOK_SOURCE_N8N, WEBHOOK_SOURCE_INTEGRATELY.
       --status string            Current status of the webhook One of: WEBHOOK_STATUS_UNSPECIFIED, WEBHOOK_STATUS_ACTIVE, WEBHOOK_STATUS_DISABLED, WEBHOOK_STATUS_PAUSED.
       --triggers stringArray     Filter webhook notifications by workflow step kinds. Only workflow steps matching these kinds will trigger webhook notifications: KIND_ENTRY sends visit.entered, KIND_INTERACTION visit.interacted, KIND_CONDITION visit.routed and KIND_EXIT visit.exited. If empty, all workflow step kinds will trigger notifications. One of: KIND_UNSPECIFIED, KIND_ENTRY, KIND_EXIT, KIND_INTERACTION, KIND_CONDITION. Repeat the flag for several values.
 ```

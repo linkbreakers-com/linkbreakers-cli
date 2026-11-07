@@ -23,6 +23,7 @@ Connect your Google account to automatically sync form responses from links that
 ### SEE ALSO
 
 * [linkbreakers](linkbreakers.md)	 - Official CLI for the Linkbreakers API
+* [linkbreakers google-forms-integrations choose-form-link](linkbreakers_google-forms-integrations_choose-form-link.md)	 - Choose a Google Form's link
 * [linkbreakers google-forms-integrations complete-o-auth](linkbreakers_google-forms-integrations_complete-o-auth.md)	 - Complete Google OAuth
 * [linkbreakers google-forms-integrations delete](linkbreakers_google-forms-integrations_delete.md)	 - Disconnect Google Forms integration
 * [linkbreakers google-forms-integrations get](linkbreakers_google-forms-integrations_get.md)	 - Get Google Forms integration
