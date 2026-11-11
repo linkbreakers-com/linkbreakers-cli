@@ -23,7 +23,7 @@ linkbreakers qrcode-design update [flags]
 ```
       --background-options string       The styling options for the background JSON value.
       --central-image-data string       The image to use as the central image of the QR Code. The file size limit is 3MB. It must be transmitted in a base64 string format when sending it through HTTP.
-      --central-image-delete            Set this to true to delete the central image. It can't be used at the same time as transmitting a central image.
+      --central-image-delete            Set this to true to delete the central image. It can't be used at the same time as transmitting a central image. Leave it out to keep the current central image, for example when only colors or shapes change.
       --central-image-margin int        The margin around the central image in pixels
       --central-image-media-id string   An image from the workspace's media library to use as the central image (UUID). Any READY image of at most 3 MB can be a QR code logo; anything else is refused with MEDIA_NOT_ALLOWED_HERE. The design keeps its own copy of the image: without central_image_data the server reads it from the media itself, with it the bytes sent are used and the media is recorded as where they came from. The media then lists this QR code among its references. Cannot be combined with central_image_delete. Sending central_image_data without it, or central_image_delete, clears the recorded media.
       --central-image-size float        The size of the central image relative to the QR code
