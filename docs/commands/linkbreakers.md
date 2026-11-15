@@ -33,46 +33,41 @@ No account yet? `linkbreakers signup --email <email>` creates a workspace and sa
 
 ### SEE ALSO
 
-* [linkbreakers agent-identity](linkbreakers_agent-identity.md)	 - Claiming a workspace an AI agent registered for itself
-* [linkbreakers agents](linkbreakers_agents.md)	 - Agents are chat personas a workspace builds: a role, a tone, guardrails and knowledge documents
-* [linkbreakers allowances](linkbreakers_allowances.md)	 - What the workspace has used of each limit its plan sets, read from the same counters that enforce them
-* [linkbreakers analytics-dashboard](linkbreakers_analytics-dashboard.md)	 - Endpoints for managing analytics dashboards with flexible, config-driven widgets
-* [linkbreakers analytics-data](linkbreakers_analytics-data.md)	 - Endpoints for retrieving aggregated analytics data for dashboard widgets including geographic breakdown, device distribution, and visitor trends
-* [linkbreakers assistant](linkbreakers_assistant.md)	 - Context-aware assistant that delegates to specialized sub-assistants based on the resource being edited
+* [linkbreakers agents](linkbreakers_agents.md)	 - AI chat personas you build (a role, a tone, guardrails and knowledge documents) and plug into a link's Chat Bot step, where they talk to your visitors
+* [linkbreakers analytics](linkbreakers_analytics.md)	 - Scan and visit numbers: rolling workspace totals, time series, and breakdowns by country, device, hour, link or workflow step, with funnels, A/B splits and visitor attributes
+* [linkbreakers analytics-dashboards](linkbreakers_analytics-dashboards.md)	 - Saved analytics dashboards, for the whole workspace or one link: each widget names its data source and how it is charted
 * [linkbreakers auth](linkbreakers_auth.md)	 - Manage CLI authentication
 * [linkbreakers claim](linkbreakers_claim.md)	 - Hand the workspace created by `linkbreakers signup` to a person
 * [linkbreakers completion](linkbreakers_completion.md)	 - Generate shell completion scripts
-* [linkbreakers contact-integrations](linkbreakers_contact-integrations.md)	 - Add the people who scan your QR codes and fill your forms to the tools you reach your customers with (Bird and more), as contacts and to a list or audience
-* [linkbreakers custom-domains](linkbreakers_custom-domains.md)	 - Endpoints for managing custom domains in Linkbreakers
-* [linkbreakers directories](linkbreakers_directories.md)	 - Endpoints for managing directories in Linkbreakers
-* [linkbreakers events](linkbreakers_events.md)	 - Endpoints for managing events in Linkbreakers
-* [linkbreakers form-integrations](linkbreakers_form-integrations.md)	 - Connect Tally, Typeform, Jotform or Paperform: each response lands on the visitor whose visit opened the form, through a hidden lbid field and a webhook
-* [linkbreakers google-analytics-integrations](linkbreakers_google-analytics-integrations.md)	 - Send every QR code scan and link visit, form submission and piece of visitor data captured to Google Analytics 4, server side through the Measurement Protocol, with no delay for the visitor
-* [linkbreakers google-forms-integrations](linkbreakers_google-forms-integrations.md)	 - Connect your Google account to automatically sync form responses from links that redirect to Google Forms
-* [linkbreakers integrations](linkbreakers_integrations.md)	 - integrations API operations
-* [linkbreakers jobs](linkbreakers_jobs.md)	 - Long-running operations
-* [linkbreakers links](linkbreakers_links.md)	 - Endpoints for managing shortened links in Linkbreakers
-* [linkbreakers media](linkbreakers_media.md)	 - Endpoints for managing media files in Linkbreakers
-* [linkbreakers members](linkbreakers_members.md)	 - Endpoints for managing members in Linkbreakers
-* [linkbreakers metrics](linkbreakers_metrics.md)	 - Endpoints for analyzing workspace activity within Linkbreakers, covering rolling event totals, audience reach, and calendar heatmaps
-* [linkbreakers page-theme-templates](linkbreakers_page-theme-templates.md)	 - Endpoints for managing Page Theme Templates in Linkbreakers
-* [linkbreakers page-themes](linkbreakers_page-themes.md)	 - Endpoints for managing page visual themes
-* [linkbreakers pricing](linkbreakers_pricing.md)	 - Public pricing catalog: the plans, what each costs and what each allows
-* [linkbreakers qrcode-design](linkbreakers_qrcode-design.md)	 - Endpoints for managing QR Code Designs in Linkbreakers
-* [linkbreakers qrcode-templates](linkbreakers_qrcode-templates.md)	 - Endpoints for managing QR Code Templates in Linkbreakers
-* [linkbreakers retargeting-pixels](linkbreakers_retargeting-pixels.md)	 - Fire your ad platforms' retargeting pixels (Meta, Google, TikTok, LinkedIn, Google Tag Manager) when someone visits one of your links or scans one of your QR codes, so you can retarget them later
-* [linkbreakers review-rewards](linkbreakers_review-rewards.md)	 - Three months of the Pro plan for free in exchange for an honest review of Linkbreakers on G2, Capterra or Trustpilot
+* [linkbreakers contact-integrations](linkbreakers_contact-integrations.md)	 - Send the people who scan your QR codes and fill your forms to the tool you reach customers with (CRMs and email marketing tools), as contacts on a list or audience
+* [linkbreakers custom-domains](linkbreakers_custom-domains.md)	 - Your own domain for short links and QR codes: add it, get the DNS records to set, and check it is live with its certificate
+* [linkbreakers directories](linkbreakers_directories.md)	 - Folders for your links: directories hold links and other directories, as a tree
+* [linkbreakers events](linkbreakers_events.md)	 - Every scan and visit as a raw event, and the workflow steps each visitor went through
+* [linkbreakers form-integrations](linkbreakers_form-integrations.md)	 - Connect Tally, Typeform, Jotform or Paperform: each response is attached to the visitor whose visit opened the form
+* [linkbreakers google-analytics-integrations](linkbreakers_google-analytics-integrations.md)	 - Send every scan, visit, form submission and captured visitor detail to your Google Analytics 4 property, server side
+* [linkbreakers google-forms-integrations](linkbreakers_google-forms-integrations.md)	 - Connect a Google account so responses to Google Forms your links lead to are attached to the visitors who sent them
+* [linkbreakers integrations](linkbreakers_integrations.md)	 - Which integrations act on a given link: Slack, Google Analytics, forms, contact tools, automation platforms, webhooks and retargeting pixels
+* [linkbreakers jobs](linkbreakers_jobs.md)	 - Background link batches
+* [linkbreakers link-settings](linkbreakers_link-settings.md)	 - How much identifying data visitors are asked for: the workspace's data collection level and each link's settings
+* [linkbreakers links](linkbreakers_links.md)	 - Short links and their QR codes: create them (one at a time, in bulk or in the background), read, update and delete them, and render their QR code images
+* [linkbreakers media](linkbreakers_media.md)	 - Your media library: images, PDFs and videos for link pages, QR codes and workflow steps
+* [linkbreakers members](linkbreakers_members.md)	 - The people in your workspace: invite them, change their role, revoke or restore their access, sign them out, remove them
+* [linkbreakers page-theme-templates](linkbreakers_page-theme-templates.md)	 - Reusable page looks: save a link's theme as a template, publish it, import a public one, and apply it to links
+* [linkbreakers page-themes](linkbreakers_page-themes.md)	 - The look of a link's pages (colors, fonts, cover, badge, buttons): read and update one link's theme, or restyle many links at once
+* [linkbreakers plan-usage](linkbreakers_plan-usage.md)	 - How much of each limit of your plan the workspace has used (tracked visits, API calls, platform credits, team members, custom domains, webhooks), read from the counters that enforce them
+* [linkbreakers pricing](linkbreakers_pricing.md)	 - The public plan catalog: what each plan costs and what it allows
+* [linkbreakers qrcode-designs](linkbreakers_qrcode-designs.md)	 - The look of a link's QR code: colors, dot and corner shapes, and the logo in its center
+* [linkbreakers qrcode-templates](linkbreakers_qrcode-templates.md)	 - Reusable QR code designs: save one, publish it, import a public one, and apply it to links
+* [linkbreakers retargeting-pixels](linkbreakers_retargeting-pixels.md)	 - Fire your ad platforms' pixels (Meta, Google, TikTok, LinkedIn, Google Tag Manager) when someone opens one of your links or scans one of your QR codes, to retarget them later
 * [linkbreakers self-update](linkbreakers_self-update.md)	 - Download and install the latest CLI release
-* [linkbreakers settings](linkbreakers_settings.md)	 - Endpoints for managing link-level data collection settings in Linkbreakers
 * [linkbreakers signup](linkbreakers_signup.md)	 - Create a Linkbreakers workspace and save its API token, in one step
-* [linkbreakers slack-integrations](linkbreakers_slack-integrations.md)	 - Endpoints for managing the Slack integration
-* [linkbreakers tags](linkbreakers_tags.md)	 - Endpoints for managing tags in Linkbreakers
-* [linkbreakers time-series](linkbreakers_time-series.md)	 - time series API operations
+* [linkbreakers slack-integrations](linkbreakers_slack-integrations.md)	 - Post scans, visits and form submissions on your links to a Slack channel as they happen
+* [linkbreakers tags](linkbreakers_tags.md)	 - The labels you put on links to group and filter them: list them, or delete tags from every link that carries them
 * [linkbreakers version](linkbreakers_version.md)	 - Show CLI build version
-* [linkbreakers visitors](linkbreakers_visitors.md)	 - Identify and manage visitors
-* [linkbreakers webhooks](linkbreakers_webhooks.md)	 - Endpoints for managing webhooks in Linkbreakers
-* [linkbreakers workflow-steps](linkbreakers_workflow-steps.md)	 - Endpoints for managing workflow steps in Linkbreakers
-* [linkbreakers workspace-tokens](linkbreakers_workspace-tokens.md)	 - Endpoints for managing workspace tokens in Linkbreakers
-* [linkbreakers workspaces](linkbreakers_workspaces.md)	 - Endpoints for managing workspaces in Linkbreakers
+* [linkbreakers visitors](linkbreakers_visitors.md)	 - The people who scan your QR codes or open your links: identify them with your own data ($email, $phone, any key), read, search, update and delete them
+* [linkbreakers webhooks](linkbreakers_webhooks.md)	 - Your own URLs, called with each event you subscribe them to (scans, visits, form submissions)
+* [linkbreakers workflow-steps](linkbreakers_workflow-steps.md)	 - What happens when someone opens a link: the steps (redirects, forms, pages, conditions, a chat bot) and where each step's exits lead
+* [linkbreakers workspace-tokens](linkbreakers_workspace-tokens.md)	 - The API tokens that authenticate these endpoints: create, list, update and revoke them
+* [linkbreakers workspaces](linkbreakers_workspaces.md)	 - Your workspace: read and update its settings, or delete it
 
 ###### Auto generated by spf13/cobra on 15-Nov-2026

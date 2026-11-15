@@ -24,7 +24,7 @@ linkbreakers auth request-email-verification [flags]
       --data string              Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
       --email string             Email address of the workspace member who should receive the verification email. Required. It must belong to a member of the caller's workspace whose email is not verified yet; the signed-in member's own address is returned by GET /v1/member. Opening the link in the email verifies that address and, with it, the workspace.
   -h, --help                     help for request-email-verification
-      --idempotency-key string   Makes retrying this request safe. See components.parameters.IdempotencyKey.
+      --idempotency-key string   A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
 ```
 
 ### Options inherited from parent commands
