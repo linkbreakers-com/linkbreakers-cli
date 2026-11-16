@@ -83,3 +83,13 @@ Four paths changed with them (`POST /v1/visitors:identify`,
 `POST /v1/custom-domains/{id}:verify`). The API keeps answering the former
 paths until at least 2027-06-01, so a CLI released before this one keeps
 working until then.
+
+### Moved command (2026-11-16)
+
+Resending a member's verification email moved to the Members section, so
+`linkbreakers auth request-email-verification` becomes
+`linkbreakers members request-email-verification`, and the `auth` group goes
+away. It calls `POST /v1/members/email-verification`; the former
+`POST /v1/auth/email/verification/request` keeps answering until at least
+2027-06-01. Run it when a command fails with `WORKSPACE_UNVERIFIED`: it sends
+the verification email again, and verifying the address lifts the pause.
