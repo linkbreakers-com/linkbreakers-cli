@@ -80,9 +80,11 @@ works. Commands are generated from those names, so regenerating
 
 Four paths changed with them (`POST /v1/visitors:identify`,
 `POST /v1/qrcode-designs`, `GET /v1/plan-usage`,
-`POST /v1/custom-domains/{id}:verify`). The API keeps answering the former
-paths until at least 2027-06-01, so a CLI released before this one keeps
-working until then.
+`POST /v1/custom-domains/{id}:verify`). The API removes a former path once no
+client has called it for 14 days, so a CLI released before this one gets `404`
+on the former plan usage, QR code design and custom domain paths; only
+`POST /v1/visitor/identify` still answers, until 2027-06-01 or until it goes
+14 days without a call.
 
 ### Moved command (2026-11-16)
 
@@ -90,6 +92,6 @@ Resending a member's verification email moved to the Members section, so
 `linkbreakers auth request-email-verification` becomes
 `linkbreakers members request-email-verification`, and the `auth` group goes
 away. It calls `POST /v1/members/email-verification`; the former
-`POST /v1/auth/email/verification/request` keeps answering until at least
-2027-06-01. Run it when a command fails with `WORKSPACE_UNVERIFIED`: it sends
+`POST /v1/auth/email/verification/request` is removed (only the dashboard
+called it). Run it when a command fails with `WORKSPACE_UNVERIFIED`: it sends
 the verification email again, and verifying the address lifts the pause.
