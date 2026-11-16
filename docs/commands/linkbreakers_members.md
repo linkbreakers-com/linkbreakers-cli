@@ -29,6 +29,7 @@ The people in your workspace: invite them, change their role, revoke or restore 
 * [linkbreakers members get](linkbreakers_members_get.md)	 - Get a member by ID
 * [linkbreakers members invite](linkbreakers_members_invite.md)	 - Invite a new member
 * [linkbreakers members list](linkbreakers_members_list.md)	 - List members
+* [linkbreakers members request-email-verification](linkbreakers_members_request-email-verification.md)	 - Resend a member's verification email
 * [linkbreakers members revoke-access](linkbreakers_members_revoke-access.md)	 - Revoke access for a member
 * [linkbreakers members update](linkbreakers_members_update.md)	 - Update a member
 

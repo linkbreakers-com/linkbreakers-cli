@@ -35,6 +35,7 @@ Short links and their QR codes: create them (one at a time, in bulk or in the ba
 * [linkbreakers links generate-shortlink](linkbreakers_links_generate-shortlink.md)	 - Generate a shortlink
 * [linkbreakers links get](linkbreakers_links_get.md)	 - Get link details
 * [linkbreakers links list](linkbreakers_links_list.md)	 - List links
+* [linkbreakers links list-integrations](linkbreakers_links_list-integrations.md)	 - List the integrations active on a link
 * [linkbreakers links render-qrcode-images](linkbreakers_links_render-qrcode-images.md)	 - Render QR codes for a link
 * [linkbreakers links update](linkbreakers_links_update.md)	 - Update a link
 

@@ -24,7 +24,6 @@ Manage CLI authentication
 
 * [linkbreakers](linkbreakers.md)	 - Official CLI for the Linkbreakers API
 * [linkbreakers auth clear](linkbreakers_auth_clear.md)	 - Delete persisted CLI config
-* [linkbreakers auth request-email-verification](linkbreakers_auth_request-email-verification.md)	 - Resend a member's verification email
 * [linkbreakers auth set-token](linkbreakers_auth_set-token.md)	 - Persist an API token for future commands
 * [linkbreakers auth status](linkbreakers_auth_status.md)	 - Show how authentication is currently resolved
 
