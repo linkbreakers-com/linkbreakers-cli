@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased (next release, from the API's public document of 2026-11-15)
+## 1.198.1 to 1.200.0 (2026-11-15 and 2026-11-16): the public API contract cleanup
+
+Breaking for code written against 1.198.0 or earlier. Versions follow the
+API's version. The renamed and removed classes, operations and paths below
+shipped in 1.198.1; the verification email moved to Members in 1.199.0; the
+former paths were removed and Google Forms became one of the form tools in
+1.200.0.
 
 The API renamed its services and operations so the contract reads the way it
 works. Commands are generated from those names, so regenerating
