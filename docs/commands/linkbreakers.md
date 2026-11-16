@@ -43,9 +43,8 @@ No account yet? `linkbreakers signup --email <email>` creates a workspace and sa
 * [linkbreakers custom-domains](linkbreakers_custom-domains.md)	 - Your own domain for short links and QR codes: add it, get the DNS records to set, and check it is live with its certificate
 * [linkbreakers directories](linkbreakers_directories.md)	 - Folders for your links: directories hold links and other directories, as a tree
 * [linkbreakers events](linkbreakers_events.md)	 - Every scan and visit as a raw event, and the workflow steps each visitor went through
-* [linkbreakers form-integrations](linkbreakers_form-integrations.md)	 - Connect Tally, Typeform, Jotform or Paperform: each response is attached to the visitor whose visit opened the form
+* [linkbreakers form-integrations](linkbreakers_form-integrations.md)	 - Connect Google Forms, Tally, Typeform, Jotform or Paperform: each response is attached to the visitor whose visit opened the form
 * [linkbreakers google-analytics-integrations](linkbreakers_google-analytics-integrations.md)	 - Send every scan, visit, form submission and captured visitor detail to your Google Analytics 4 property, server side
-* [linkbreakers google-forms-integrations](linkbreakers_google-forms-integrations.md)	 - Connect a Google account so responses to Google Forms your links lead to are attached to the visitors who sent them
 * [linkbreakers integrations](linkbreakers_integrations.md)	 - Which integrations act on a given link: Slack, Google Analytics, forms, contact tools, automation platforms, webhooks and retargeting pixels
 * [linkbreakers jobs](linkbreakers_jobs.md)	 - Follow a bulk link creation that runs in the background
 * [linkbreakers link-settings](linkbreakers_link-settings.md)	 - How much identifying data visitors are asked for: the workspace's data collection level and each link's settings
