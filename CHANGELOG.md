@@ -87,10 +87,8 @@ works. Commands are generated from those names, so regenerating
 Four paths changed with them (`POST /v1/visitors:identify`,
 `POST /v1/qrcode-designs`, `GET /v1/plan-usage`,
 `POST /v1/custom-domains/{id}:verify`). The API removes a former path once no
-client has called it for 14 days, so a CLI released before this one gets `404`
-on the former plan usage, QR code design and custom domain paths; only
-`POST /v1/visitor/identify` still answers, until 2027-06-01 or until it goes
-14 days without a call.
+client has called it for 14 days; none had an outside caller, so a CLI
+released before this one gets `404` on all four former paths.
 
 ### Moved command (2026-11-16)
 
