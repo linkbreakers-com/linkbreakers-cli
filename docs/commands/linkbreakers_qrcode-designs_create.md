@@ -8,7 +8,7 @@ Create a new QR code design
 
 ### Synopsis
 
-Provision a QR code styling preset that can be reused across links or templates.
+Provision a QR code styling preset that can be reused across links or templates. No API token is needed; the logo, if any, is a public upload passed by its media id.
 
 API: POST /v1/qrcode-designs
 
@@ -20,8 +20,8 @@ linkbreakers qrcode-designs create [flags]
 
 ```
       --background-options string       The styling options for the background JSON value.
-      --central-image-data string       The image to use as the central image of the QR Code. The file size limit is 3MB. It must be transmitted in a base64 string format when sending it through HTTP. This endpoint has no workspace, so it cannot take an image from the media library: to use one, create the design, then set centralImageMediaId with Update.
       --central-image-margin int        The margin around the central image in pixels
+      --central-image-media-id string   The central image (the logo): the media id of a public upload (UUID), made without an API token with POST /v1/media/public-uploads, a PUT of the image, and its complete call. The image itself is never sent here. Only a completed public upload of the last hour is accepted, an image of at most 3 MB; anything else is refused with QRCODE_DESIGN_INVALID_LOGO_MEDIA. The design keeps its own copy of the image. To use an image of your media library, create the design, then set centralImageMediaId with Update.
       --central-image-size float        The size of the central image relative to the QR code
       --corners-dot-options string      The styling options for the dot corners JSON value.
       --corners-square-options string   The styling options for the square corners JSON value.

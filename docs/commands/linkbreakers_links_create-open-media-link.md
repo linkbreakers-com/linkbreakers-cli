@@ -10,7 +10,7 @@ Create a new media link
 
 Creates a link, and its QR code, that hands visitors one piece of media from the media
 library: a PDF (a menu or brochure), an image (PNG, JPEG, WebP, SVG) or an MP4 video. Upload
-the media first (POST /v1/media, or a direct upload for media over 3 MB; no usage is needed),
+the media first (POST /v1/media/uploads, a PUT of the file, then its complete call; no usage is needed),
 then pass its mediaId. Any media of the library can be opened. The Open media step is the exit step. Swap the media later by
 pointing the step at another media item.
 

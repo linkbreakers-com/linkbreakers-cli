@@ -23,11 +23,12 @@ Your media library: images, PDFs and videos for link pages, QR codes and workflo
 ### SEE ALSO
 
 * [linkbreakers](linkbreakers.md)	 - Official CLI for the Linkbreakers API
+* [linkbreakers media complete-public-upload](linkbreakers_media_complete-public-upload.md)	 - Complete a public QR code logo upload
 * [linkbreakers media complete-replace](linkbreakers_media_complete-replace.md)	 - Complete replacing a media file
-* [linkbreakers media complete-upload](linkbreakers_media_complete-upload.md)	 - Complete a direct media upload
-* [linkbreakers media create](linkbreakers_media_create.md)	 - Upload a media file
+* [linkbreakers media complete-upload](linkbreakers_media_complete-upload.md)	 - Complete a media upload
+* [linkbreakers media create-public-upload](linkbreakers_media_create-public-upload.md)	 - Start a public QR code logo upload
 * [linkbreakers media create-replace-upload](linkbreakers_media_create-replace-upload.md)	 - Start replacing a media file
-* [linkbreakers media create-upload](linkbreakers_media_create-upload.md)	 - Start a direct media upload
+* [linkbreakers media create-upload](linkbreakers_media_create-upload.md)	 - Start a media upload
 * [linkbreakers media delete](linkbreakers_media_delete.md)	 - Delete a media file
 * [linkbreakers media get](linkbreakers_media_get.md)	 - Get media file details
 * [linkbreakers media import](linkbreakers_media_import.md)	 - Import a media file from a URL

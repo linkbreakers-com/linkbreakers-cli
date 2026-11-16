@@ -8,7 +8,9 @@ Update a member
 
 ### Synopsis
 
-Modify profile details or role assignments for an existing member.
+Change a teammate's name, role, display language or email. Only the fields you send are changed: a field left out keeps its value, so `{"role": "ROLE_ADMIN"}` promotes a teammate and leaves the rest of their profile as it is.
+
+A role other than `ROLE_ADMIN` or `ROLE_VIEWER` fails with `MEMBER_ROLE_NOT_ALLOWED`; a language not offered fails with `MEMBER_LANGUAGE_NOT_ALLOWED`.
 
 Requires the `members:write` scope.
 
@@ -21,15 +23,15 @@ linkbreakers members update [flags]
 ### Options
 
 ```
-      --data string               Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
-      --display-language string   Preferred language for product copy and emails
-      --email string              Email address used for login and notifications
-      --first-name string         First name to display in the product
-  -h, --help                      help for update
-      --id string                 Member identifier (UUID) to update Required.
-      --idempotency-key string    A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
-      --last-name string          Last name to display in the product
-      --role string               Enumerates the built-in permission tiers that control what teammates can manage inside a workspace. One of: ROLE_UNSPECIFIED, ROLE_VIEWER, ROLE_ADMIN, ROLE_TECH.
+      --data string              Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
+      --display-language en      New display language for product copy and emails: en, `es`, or `system` to follow the browser. Left out, the language stays as it is.
+      --email string             New sign-in and notification email. Left out, or sent unchanged, the email stays as it is.
+      --first-name string        New first name. Left out, the first name stays as it is; sent empty, it is cleared.
+  -h, --help                     help for update
+      --id string                Member identifier (UUID) to update Required.
+      --idempotency-key string   A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
+      --last-name string         New last name. Left out, the last name stays as it is; sent empty, it is cleared.
+      --role ROLE_ADMIN          New role: ROLE_ADMIN (manages links, members, settings and billing) or `ROLE_VIEWER` (reads only). Left out, the role stays as it is. Any other role fails with `MEMBER_ROLE_NOT_ALLOWED`. One of: ROLE_UNSPECIFIED, ROLE_VIEWER, ROLE_ADMIN, ROLE_TECH.
 ```
 
 ### Options inherited from parent commands

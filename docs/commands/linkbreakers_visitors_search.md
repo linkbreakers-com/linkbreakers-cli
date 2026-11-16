@@ -32,7 +32,7 @@ linkbreakers visitors search [flags]
       --page-token string          Cursor token to retrieve the next page of results
       --response-format string     Defines the transport format the API should return for list-style endpoints. One of: RESPONSE_FORMAT_UNSPECIFIED, RESPONSE_FORMAT_JSON, RESPONSE_FORMAT_CSV.
       --search string              optional fuzzy search across known fields
-      --sort-direction string      The ordering applied to any sortable list endpoint. Shared across resources so a caller learns it once. One of: SORT_DIRECTION_UNSPECIFIED, SORT_DIRECTION_ASC, SORT_DIRECTION_DESC.
+      --sort-direction string      Sort direction. Defaults to descending. One of: SORT_DIRECTION_UNSPECIFIED, SORT_DIRECTION_ASC, SORT_DIRECTION_DESC.
       --sort-field string          Field to sort by. Defaults to createdAt (newest first). One of: VISITOR_SORT_FIELD_UNSPECIFIED, VISITOR_SORT_FIELD_CREATED_AT, VISITOR_SORT_FIELD_VISIT_COUNT, VISITOR_SORT_FIELD_DEVICE_COUNT, VISITOR_SORT_FIELD_QRCODE_COUNT.
 ```
 
