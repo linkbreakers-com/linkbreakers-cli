@@ -1,27 +1,29 @@
 # Changelog
 
-## Next release after 1.200.0 (2026-11-16): three operations join the section they belong to
+## Next release after 1.200.0 (2026-11-16): four operations join the section they belong to
 
-Breaking for code calling the three operations below. Versions follow the
+Breaking for code calling the four operations below. Versions follow the
 API's version.
 
-The API moved three operations into the section, and the service, they are
+The API moved four operations into the section, and the service, they are
 about. Commands are generated from the sections and operation IDs, so regenerating
-(`scripts/generate-commands.sh`) renames two commands and moves one path:
+(`scripts/generate-commands.sh`) renames three commands and moves two paths:
 
 | Before | After |
 |---|---|
 | `linkbreakers workspace-tokens list-api-scopes` | `linkbreakers workspace-tokens list-api-scopes` (same command, new path) |
 | `linkbreakers integrations list-for-link` | `linkbreakers links list-integrations` |
 | `linkbreakers auth request-email-verification` | `linkbreakers members request-email-verification` |
+| `linkbreakers plan-usage list` | `linkbreakers workspaces get-usage` |
 
 | Operation | Path |
 |---|---|
 | List the scopes a token can have | `GET /v1/workspace-tokens/scopes` (was `GET /v1/api-scopes`, removed with no alias: no integration called it in the last 14 days) |
 | List the integrations active on a link | `GET /v1/links/{linkId}/integrations` (unchanged) |
 | Resend a member's verification email | `POST /v1/members/email-verification` (unchanged) |
+| Get the workspace's plan usage | `GET /v1/workspace/usage` (was `GET /v1/plan-usage`, removed with no alias: only our dashboard called it) |
 
-The `integrations` group is gone; the integration groups for Slack, forms,
+The `integrations` and `plan-usage` groups are gone; the integration groups for Slack, forms,
 contact tools, Google Analytics and retargeting pixels stay.
 
 ## 1.198.1 to 1.200.0 (2026-11-15 and 2026-11-16): the public API contract cleanup
