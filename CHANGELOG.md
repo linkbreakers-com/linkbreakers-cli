@@ -1,5 +1,29 @@
 # Changelog
 
+## Next release after 1.200.0 (2026-11-16): three operations join the section they belong to
+
+Breaking for code calling the three operations below. Versions follow the
+API's version.
+
+The API moved three operations into the section, and the service, they are
+about. Commands are generated from the sections and operation IDs, so regenerating
+(`scripts/generate-commands.sh`) renames two commands and moves one path:
+
+| Before | After |
+|---|---|
+| `linkbreakers workspace-tokens list-api-scopes` | `linkbreakers workspace-tokens list-api-scopes` (same command, new path) |
+| `linkbreakers integrations list-for-link` | `linkbreakers links list-integrations` |
+| `linkbreakers auth request-email-verification` | `linkbreakers members request-email-verification` |
+
+| Operation | Path |
+|---|---|
+| List the scopes a token can have | `GET /v1/workspace-tokens/scopes` (was `GET /v1/api-scopes`, removed with no alias: no integration called it in the last 14 days) |
+| List the integrations active on a link | `GET /v1/links/{linkId}/integrations` (unchanged) |
+| Resend a member's verification email | `POST /v1/members/email-verification` (unchanged) |
+
+The `integrations` group is gone; the integration groups for Slack, forms,
+contact tools, Google Analytics and retargeting pixels stay.
+
 ## 1.198.1 to 1.200.0 (2026-11-15 and 2026-11-16): the public API contract cleanup
 
 Breaking for code written against 1.198.0 or earlier. Versions follow the
