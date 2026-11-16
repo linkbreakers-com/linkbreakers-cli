@@ -95,3 +95,23 @@ away. It calls `POST /v1/members/email-verification`; the former
 `POST /v1/auth/email/verification/request` is removed (only the dashboard
 called it). Run it when a command fails with `WORKSPACE_UNVERIFIED`: it sends
 the verification email again, and verifying the address lifts the pause.
+
+### Google Forms is one of the form tools (2026-11-16)
+
+Google Forms is now the tool `FORM_TOOL_GOOGLE_FORMS` of the form integrations
+(`/v1/form-integrations/{tool}`), and `/v1/google-forms-integrations` is removed
+(nothing outside the Linkbreakers dashboard called it over the 14 days before).
+Regenerating removes the `linkbreakers google-forms-integrations` group:
+
+| Before | After |
+|---|---|
+| `linkbreakers google-forms-integrations get` | `linkbreakers form-integrations get FORM_TOOL_GOOGLE_FORMS` |
+| `linkbreakers google-forms-integrations update` | `linkbreakers form-integrations update FORM_TOOL_GOOGLE_FORMS` |
+| `linkbreakers google-forms-integrations delete` | `linkbreakers form-integrations disconnect FORM_TOOL_GOOGLE_FORMS` |
+| `linkbreakers google-forms-integrations list-detected-forms` | `linkbreakers form-integrations list-forms FORM_TOOL_GOOGLE_FORMS` |
+| `linkbreakers google-forms-integrations sync-now` | `linkbreakers form-integrations prepare-forms FORM_TOOL_GOOGLE_FORMS` (reads the new responses now) |
+| `linkbreakers google-forms-integrations choose-form-link` | `linkbreakers form-integrations choose-form-link FORM_TOOL_GOOGLE_FORMS <formId>` (new) |
+
+(The exact argument form follows the generator.) Connecting Google Forms is a
+browser sign-in: `linkbreakers form-integrations get-o-auth-url
+FORM_TOOL_GOOGLE_FORMS` gives the URL to open.
