@@ -110,7 +110,7 @@ func (a *app) newSignupCommand() *cobra.Command {
 					"linkbreakers links list",
 					"linkbreakers --help",
 				},
-				"limits": "Free plan. See them with `linkbreakers allowances list-allowances`.",
+				"limits": "Free plan. See them with `linkbreakers plan-usage list`.",
 			}
 			var started claimStarted
 			if err := postAgent(ctx, cfg.AgentBaseURL+"/agent/identity/claim", map[string]string{"claim_token": reg.ClaimToken, "email": email}, &started); err != nil {
