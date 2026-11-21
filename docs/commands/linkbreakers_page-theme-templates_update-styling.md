@@ -29,6 +29,8 @@ linkbreakers page-theme-templates update-styling [flags]
       --canvas-color string         --- Background Section --- JSON value.
       --canvas-cover string         JSON value.
       --canvas-cover-mode string    One of: PAGE_THEME_BACKGROUND_COVER_MODE_UNSPECIFIED, PAGE_THEME_BACKGROUND_COVER_MODE_FULL, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_TOP, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_BOTTOM.
+      --canvas-texture string       A texture over the page background: NONE, BRUSHED (paint streaks) or GRAIN (film grain). One of: PAGE_THEME_CANVAS_TEXTURE_UNSPECIFIED, PAGE_THEME_CANVAS_TEXTURE_NONE, PAGE_THEME_CANVAS_TEXTURE_BRUSHED, PAGE_THEME_CANVAS_TEXTURE_GRAIN.
+      --choice-layout string        How a choice question lays out its answers: AUTO (pills or tiles) or ROWS (full-width rows). One of: PAGE_THEME_CHOICE_LAYOUT_UNSPECIFIED, PAGE_THEME_CHOICE_LAYOUT_AUTO, PAGE_THEME_CHOICE_LAYOUT_ROWS.
       --container-config string     JSON value.
       --container-enabled           
       --data string                 Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
@@ -39,6 +41,8 @@ linkbreakers page-theme-templates update-styling [flags]
   -h, --help                        help for update-styling
       --id string                   The ID of the page theme template whose styling to update (UUID) Required.
       --idempotency-key string      A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
+      --question-style string       How a form's questions are written: LABEL (small, in the text style) or HEADLINE (centered, in the title style). One of: PAGE_THEME_QUESTION_STYLE_UNSPECIFIED, PAGE_THEME_QUESTION_STYLE_LABEL, PAGE_THEME_QUESTION_STYLE_HEADLINE.
+      --roles string                Role styles: each role sent replaces that role, an empty one returns it to what it inherits. JSON value.
       --title-font string           --- Typography Section --- JSON value.
       --visitor-experience string   How visitor pages pace their content: CLASSIC shows a whole form at once and a chat as a transcript, FOCUSED one question per screen and a chat as a short fading trail. One of: PAGE_THEME_VISITOR_EXPERIENCE_UNSPECIFIED, PAGE_THEME_VISITOR_EXPERIENCE_CLASSIC, PAGE_THEME_VISITOR_EXPERIENCE_FOCUSED.
 ```
