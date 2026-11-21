@@ -29,7 +29,7 @@ linkbreakers page-themes update [flags]
       --canvas-color string         --- Background Section --- Canvas color configuration to update JSON value.
       --canvas-cover string         Cover media selection to update: any image of at most 3 MB from the media library JSON value.
       --canvas-cover-mode string    Cover display mode to update One of: PAGE_THEME_BACKGROUND_COVER_MODE_UNSPECIFIED, PAGE_THEME_BACKGROUND_COVER_MODE_FULL, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_TOP, PAGE_THEME_BACKGROUND_COVER_MODE_PROGRESSIVE_BOTTOM.
-      --canvas-texture string       A texture over the page background: NONE, BRUSHED (paint streaks) or GRAIN (film grain). One of: PAGE_THEME_CANVAS_TEXTURE_UNSPECIFIED, PAGE_THEME_CANVAS_TEXTURE_NONE, PAGE_THEME_CANVAS_TEXTURE_BRUSHED, PAGE_THEME_CANVAS_TEXTURE_GRAIN.
+      --canvas-texture string       A texture over the page background: NONE, BRUSHED (paint streaks), GRAIN (film grain) or STARFIELD (stars and Milky Way dust, for dark backgrounds). One of: PAGE_THEME_CANVAS_TEXTURE_UNSPECIFIED, PAGE_THEME_CANVAS_TEXTURE_NONE, PAGE_THEME_CANVAS_TEXTURE_BRUSHED, PAGE_THEME_CANVAS_TEXTURE_GRAIN, PAGE_THEME_CANVAS_TEXTURE_STARFIELD.
       --choice-layout string        How a choice question lays out its answers: AUTO (pills or tiles) or ROWS (full-width rows, indicator on the right). One of: PAGE_THEME_CHOICE_LAYOUT_UNSPECIFIED, PAGE_THEME_CHOICE_LAYOUT_AUTO, PAGE_THEME_CHOICE_LAYOUT_ROWS.
       --container-config string     Container styling configuration to update JSON value.
       --container-enabled           Whether container is enabled (false clears containerConfig)
