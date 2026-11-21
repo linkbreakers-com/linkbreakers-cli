@@ -36,13 +36,17 @@ linkbreakers page-theme-templates update-styling [flags]
       --data string                 Request body as JSON. Use @file.json to read a file or - for stdin. Flags set fields on top of it.
       --element-color string        JSON value.
       --element-font string         JSON value.
+      --element-styles string       The look of each element job (SURFACE, SELECTED, ACTION, QUIET). A job not listed follows the shape, the colours, or the look it always had. JSON value.
       --footer-logo string          JSON value.
       --footer-logo-enabled         Small company or brand logo centered at the bottom of every page using the theme.
+      --heading-align string        How titles and headline questions are aligned. Unset: centered titles, questions as the question style draws them. One of: PAGE_THEME_TEXT_ALIGN_UNSPECIFIED, PAGE_THEME_TEXT_ALIGN_CENTER, PAGE_THEME_TEXT_ALIGN_LEFT.
   -h, --help                        help for update-styling
       --id string                   The ID of the page theme template whose styling to update (UUID) Required.
       --idempotency-key string      A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
       --question-style string       How a form's questions are written: LABEL (small, in the text style) or HEADLINE (centered, in the title style). One of: PAGE_THEME_QUESTION_STYLE_UNSPECIFIED, PAGE_THEME_QUESTION_STYLE_LABEL, PAGE_THEME_QUESTION_STYLE_HEADLINE.
-      --roles string                Role styles: each role sent replaces that role, an empty one returns it to what it inherits. JSON value.
+      --shape string                The radius and border every job follows unless it has its own. JSON value.
+      --small-text string           Small text: hints, counters, consent. Unset: the body text, smaller and muted. JSON value.
+      --text-color string           The text colour headings, body and small text follow when their own font has none. JSON value.
       --title-font string           --- Typography Section --- JSON value.
       --visitor-experience string   How visitor pages pace their content: CLASSIC shows a whole form at once and a chat as a transcript, FOCUSED one question per screen and a chat as a short fading trail. One of: PAGE_THEME_VISITOR_EXPERIENCE_UNSPECIFIED, PAGE_THEME_VISITOR_EXPERIENCE_CLASSIC, PAGE_THEME_VISITOR_EXPERIENCE_FOCUSED.
 ```
