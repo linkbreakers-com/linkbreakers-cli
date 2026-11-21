@@ -40,7 +40,7 @@ linkbreakers page-themes update [flags]
       --id string                   Page theme ID to update Required.
       --idempotency-key string      A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
       --title-font string           --- Typography Section --- Title font configuration to update JSON value.
-      --visitor-experience string   How visitor pages pace their content: CLASSIC shows a whole form at once and a chat as a transcript, FOCUSED shows one question per screen and a chat one exchange at a time. One of: PAGE_THEME_VISITOR_EXPERIENCE_UNSPECIFIED, PAGE_THEME_VISITOR_EXPERIENCE_CLASSIC, PAGE_THEME_VISITOR_EXPERIENCE_FOCUSED.
+      --visitor-experience string   How visitor pages pace their content: CLASSIC shows a whole form at once and a chat as a transcript, FOCUSED shows one question per screen and a chat as a short fading trail of its newest messages. One of: PAGE_THEME_VISITOR_EXPERIENCE_UNSPECIFIED, PAGE_THEME_VISITOR_EXPERIENCE_CLASSIC, PAGE_THEME_VISITOR_EXPERIENCE_FOCUSED.
 ```
 
 ### Options inherited from parent commands
