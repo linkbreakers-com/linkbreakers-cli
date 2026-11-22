@@ -1,5 +1,32 @@
 # Changelog
 
+## Next release (2026-11-22): Jobs is Link Jobs
+
+Breaking for scripts reading a background bulk link creation. Versions follow
+the API's version.
+
+The API's Jobs section is now Link Jobs, and its service and operation with
+it: the only job there is links being created in the background. Commands are
+generated from the sections and operation IDs, so regenerating
+(`scripts/generate-commands.sh`) renames the command:
+
+| Before | After |
+|---|---|
+| `linkbreakers jobs get <id>` | `linkbreakers link-jobs get <id>` |
+
+| Path | |
+|---|---|
+| `GET /v1/links/jobs/{id}` | was `GET /v1/jobs/{id}`, removed with no alias: no outside client called it in the 14 days before the rename |
+| `POST /v1/links/bulk/jobs` | unchanged; its `Location` header and `statusUrl` now point at `/v1/links/jobs/{id}` |
+
+Enum values change with their type: `JOB_STATUS_*` is `LINK_JOB_STATUS_*`
+and `JOB_TYPE_LINKS_BULK_CREATE` is `LINK_JOB_TYPE_BULK_CREATE`. The error
+codes `JOB_NOT_FOUND` and `JOB_FAILED` are `LINK_JOB_NOT_FOUND` and
+`LINK_JOB_FAILED`. Fields are unchanged (`linksBulkCreate.linkIds` still holds
+the created links).
+
+The `jobs` group is gone. `linkbreakers links create-bulk-async` is unchanged.
+
 ## Next release after 1.200.0 (2026-11-16): four operations join the section they belong to
 
 Breaking for code calling the four operations below. Versions follow the
