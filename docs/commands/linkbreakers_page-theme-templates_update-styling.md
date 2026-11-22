@@ -25,6 +25,7 @@ linkbreakers page-theme-templates update-styling [flags]
       --badge-enabled               --- Badge Section ---
       --badge-icon-color string     JSON value.
       --badge-shape string          One of: PAGE_THEME_BADGE_SHAPE_UNSPECIFIED, PAGE_THEME_BADGE_SHAPE_CIRCLE, PAGE_THEME_BADGE_SHAPE_SQUARE, PAGE_THEME_BADGE_SHAPE_ROUNDED.
+      --body-align string           How body text is aligned: descriptions, messages, helper text, and answer and button labels. Unset: centered. One of: PAGE_THEME_TEXT_ALIGN_UNSPECIFIED, PAGE_THEME_TEXT_ALIGN_CENTER, PAGE_THEME_TEXT_ALIGN_LEFT.
       --body-font string            JSON value.
       --canvas-color string         --- Background Section --- JSON value.
       --canvas-cover string         JSON value.

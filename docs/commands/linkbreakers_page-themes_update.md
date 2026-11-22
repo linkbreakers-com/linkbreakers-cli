@@ -25,6 +25,7 @@ linkbreakers page-themes update [flags]
       --badge-enabled               --- Badge Section --- Whether badge is enabled
       --badge-icon-color string     Badge icon background color to update JSON value.
       --badge-shape string          Badge shape to update One of: PAGE_THEME_BADGE_SHAPE_UNSPECIFIED, PAGE_THEME_BADGE_SHAPE_CIRCLE, PAGE_THEME_BADGE_SHAPE_SQUARE, PAGE_THEME_BADGE_SHAPE_ROUNDED.
+      --body-align string           How body text is aligned: descriptions, messages, helper text, and answer and button labels. Unset: centered. UNSPECIFIED on an update clears it. One of: PAGE_THEME_TEXT_ALIGN_UNSPECIFIED, PAGE_THEME_TEXT_ALIGN_CENTER, PAGE_THEME_TEXT_ALIGN_LEFT.
       --body-font string            Body font configuration to update JSON value.
       --canvas-color string         --- Background Section --- Canvas color configuration to update JSON value.
       --canvas-cover string         Cover media selection to update: any image of at most 3 MB from the media library JSON value.
