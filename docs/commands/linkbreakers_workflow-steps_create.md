@@ -32,6 +32,7 @@ linkbreakers workflow-steps create [flags]
       --idempotency-key string     A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
       --insert-before string       Inserts the new step in front of this one: every branch that led to it now leads to the new step, and the new step's "next" branch leads on to it. Saves creating and then connecting each side by hand. A step with no "next" branch, such as a condition or a multi-link, takes over those branches but leads nowhere until its own branches are connected.
       --link-id string             The ID of the link to create the workflow step for (UUID) Required.
+      --media string               The page's own badge and cover images, in place of the page theme's (optional). Page steps only. JSON value.
       --payload string             The payload for the workflow step (structure varies by event action) JSON value.
 ```
 

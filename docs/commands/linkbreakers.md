@@ -33,7 +33,7 @@ No account yet? `linkbreakers signup --email <email>` creates a workspace and sa
 
 ### SEE ALSO
 
-* [linkbreakers agents](linkbreakers_agents.md)	 - AI chat personas you build (a role, a tone, guardrails and knowledge documents) and plug into a link's Chat Bot step, where they talk to your visitors
+* [linkbreakers agents](linkbreakers_agents.md)	 - AI chat personas you build (a role, a tone, guardrails and knowledge items: Markdown, web pages and media files) and plug into a link's Chat Bot step, where they talk to your visitors
 * [linkbreakers analytics](linkbreakers_analytics.md)	 - Scan and visit numbers: rolling workspace totals, time series, and breakdowns by country, device, hour, link or workflow step, with funnels, A/B splits and visitor attributes
 * [linkbreakers analytics-dashboards](linkbreakers_analytics-dashboards.md)	 - Saved analytics dashboards, for the whole workspace or one link: each widget names its data source and how it is charted
 * [linkbreakers auth](linkbreakers_auth.md)	 - Manage CLI authentication

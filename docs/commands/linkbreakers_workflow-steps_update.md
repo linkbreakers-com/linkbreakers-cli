@@ -29,6 +29,7 @@ linkbreakers workflow-steps update [flags]
       --id string                  The ID of the workflow step to update (UUID) Required.
       --idempotency-key string     A unique value per request, such as a UUID, that makes retrying it safe: a retry with the same key and body returns the first response instead of acting twice.
       --link-id string             The ID of the link (UUID) Required.
+      --media string               Replaces the page's own badge and cover images, which show in place of the page theme's on this step. Send both slots: an empty one goes back to the theme's image. Leave it out to keep the current ones. Page steps only. JSON value.
       --payload string             The updated payload for the workflow step (optional) JSON value.
 ```
 
